@@ -7,7 +7,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
 
     resumen: {
         desc: `
-            *Geometry Rects n Circles JS*. es una librería básica diseñada para manejar colisiones, especialmente en proyectos con p5.js. 
+            *Geometry Rects n Circles JS.* es una librería básica diseñada para manejar colisiones, especialmente en proyectos con p5.js. 
             Permite trabajar con rectángulos y círculos, facilitando su movimiento, redimensionamiento y cálculo de colisiones, 
             uniones e intersecciones. Ideal para crear hitboxes en juegos básicos, la librería incluye clases y funciones para 
             manipular gráficos de manera sencilla.
