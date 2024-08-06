@@ -6,20 +6,20 @@
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
-     <script src="https://github.com/Jeff-Aporta/Geometry-rects-n-circles-JS/index.js"></script>
-     <link rel="stylesheet" href="index.css">
+     <script src="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/index.js"></script>
+     <link rel="stylesheet" href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css">
 </head>
 
 <body>
      <script>
           function setup() {
-               createCanvas(windowWidth - 10, windowHeight - 10);
+               createCanvas(windowWidth, windowHeight);
                rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150)
                noStroke()
           }
 
           function windowResized() {
-               resizeCanvas(windowWidth - 10, windowHeight - 10)
+               resizeCanvas(windowWidth, windowHeight)
                rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150)
           }
 

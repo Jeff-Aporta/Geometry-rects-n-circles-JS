@@ -1,7 +1,6 @@
 .muestra-code {
   display: table;
-  width: 80%;
-  min-width: 350px;
-  height: 50vh;
-  margin: auto;
+  width: 100%;
+  height: 60vh;
+  margin: 0;
 }
