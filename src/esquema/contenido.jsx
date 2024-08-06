@@ -147,22 +147,24 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                             </FormatoDoc>
 
                             <Code>{`
-                                // Este código utiliza la librería p5.js para el tratamiento gráfico
-
                                 // Función de configuración inicial
                                 function setup() {
+                                    createCanvas(windowWidth, windowHeight);
                                     // Creación de un objeto rectángulo en el centro del lienzo
-                                    rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150);
+                                    rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150)
                                 }
 
                                 function draw() {
+                                    background(220);
                                     // Actualización de la posición del rectángulo según la posición del ratón
                                     rectangulo.move(
-                                        mouseX - rectangulo.w / 2,
-                                        mouseY - rectangulo.h / 2
-                                    );
+                                            mouseX - rectangulo.w / 2,
+                                            mouseY - rectangulo.h / 2
+                                    )
+                                    fill(255, 0, 0, 100)
+                                    noStroke()
                                     // Dibujo del rectángulo en su nueva posición
-                                    rectangulo.draw();
+                                    rectangulo.draw()
                                 }
                             `}</Code>
 
