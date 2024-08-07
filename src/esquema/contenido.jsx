@@ -195,7 +195,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                     >{`
                         // Función de configuración inicial
                         function setup() {
-                            createCanvas(windowWidth - 10, windowHeight - 10);
+                            createCanvas(windowWidth, windowHeight );
                             rectangulo = new Rectangle(width / 2, height / 2, 150, 150);
                         }
 
@@ -228,7 +228,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                     >{`
                         // Función de configuración inicial
                         function setup() {
-                            createCanvas(windowWidth - 10, windowHeight - 10);
+                            createCanvas(windowWidth, windowHeight );
                             rectangulo = new Rectangle(width / 2, height / 2, 150, 150);
                         }
 
@@ -349,7 +349,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                     >{`
                         // Función para ajustar las propiedades iniciales del proyecto
                         function setup() {
-                            createCanvas(windowWidth - 10, windowHeight - 10);
+                            createCanvas(windowWidth, windowHeight );
                             rectangulo = new Rectangle(width / 2 - 150, height / 2 - 50, 300, 100);
                             rectangulo2 = new Rectangle(0, 0, 100, 300);
                         }
@@ -389,18 +389,20 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                         desc="Ejemplo de cómo calcular la unión entre dos rectángulos."
                         url="src/muestras/rectangle-union.html"
                     >{`
+                        let rectanguloCentro, rectanguloCursor;
+
                         // Función para ajustar las propiedades iniciales del proyecto
                         function setup() {
                             createCanvas(windowWidth , windowHeight);
-                            rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150);
-                            rectangulo2 = new Rectangle(0, 0, 150, 150);
+                            rectanguloCentro = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150);
+                            rectanguloCursor = new Rectangle(0, 0, 150, 150);
                         }
 
                         function draw() {
                             //efecto de reposición con el mouse
-                            rectangulo2.move(
-                                mouseX - rectangulo2.w / 2,
-                                mouseY - rectangulo2.h / 2
+                            rectanguloCursor.move(
+                                mouseX - rectanguloCursor.w / 2,
+                                mouseY - rectanguloCursor.h / 2
                             );
 
                             //Dibujado de los rectángulos
@@ -412,11 +414,11 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                             fill(255, 0, 0, 100);
 
                             //Dibujado de los rectángulos a unir
-                            rectangulo.draw();
-                            rectangulo2.draw();
+                            rectanguloCentro.draw();
+                            rectanguloCursor.draw();
 
 
-                            let union = rectangulo.union(rectangulo2);
+                            let union = rectanguloCentro.union(rectanguloCursor);
                             
                             //Dibujado de la unión
                             noFill();
@@ -433,5 +435,127 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                 );
             }
         },
+        {
+            nombre: "Círculos",
+            contenido: (thisObj) => {
+                return (
+                    <FormatoDoc>
+                        Los círculos, en muchas ocasiones, pueden proporcionar una mejor estimación de colisión que los rectángulos.
+                        La inicialización de un círculo es muy similar a la de los rectángulos.
+
+                        <Code>
+                            let circulo = new Circle(cx, cy, d);
+                        </Code>
+
+                        <SubEnvolventeSeccion>
+                            <ul className="punto-centrico">
+                                <LIDocTitulo>
+                                    cx: coordenada x del centro del círculo.
+                                </LIDocTitulo>
+                                <LIDocTitulo>
+                                    cy: coordenada y del centro del círculo.
+                                </LIDocTitulo>
+                                <LIDocTitulo>
+                                    d: diámetro del círculo.
+                                </LIDocTitulo>
+                            </ul>
+                        </SubEnvolventeSeccion>
+                        <br />
+                        Ejemplo:
+
+                        <Code>
+                            let circulo = new Circle(0, 0, 50); // x=0, y=0, radio=50
+                        </Code>
+
+                        Crea un círculo en la posición (0,0) con un radio de 50 unidades.
+
+                        <br /><br />
+
+                        Para obtener los valores de posición y radio una vez establecidos o modificados, puedes usar las propiedades pos y r,
+                        como se muestra a continuación:
+
+                        <Code>{`
+                            circulo.center  // retorna la posición del círculo -> {x:0, y:0}
+                            circulo.r    // retorna el radio del círculo -> 50
+                        `}</Code>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "Circle.distanceCenter(x, y)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <FormatoDoc>
+                        Los objetos Circle tienen una función distanceCenter(x, y) que calcula la distancia entre el centro del 
+                        círculo y un punto dado (x, y). Esta función es útil para determinar si un punto está dentro del círculo o
+                        <p>
+                            La función admite 
+                            <br />
+                            <ul className="punto-centrico">
+                                <li>
+                                dos parámetros para las coordenadas x e y del punto.
+                                </li>
+                                <li>
+                                pero también puede recibir un objeto con las coordenadas x e y. 
+                                </li>
+                            </ul>
+                            Y retorna la distancia entre el centro del círculo y el punto dado.
+                        </p>
+                        <Code
+                        >{`
+                            let circulo1 = new Circle(200, 200, 100);
+                            let punto = { x: 300, y: 300 };
+
+                            // Calcular la distancia entre el centro del círculo y el punto
+                            let distancia = circulo1.distanceCenter(punto.x, punto.y);
+                            console.log("Distancia al punto:", distancia,"pixeles");
+                        `}</Code>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "Circle.move(x, y)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Mover un círculo"
+                        desc="Ejemlo de cómo mover un círculo en la pantalla siguiendo la posición del cursor."
+                        url="src/muestras/circle-move.html"
+                    >{`
+                        let circuloCursor;
+
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            // Creación de un objeto círculo.
+                            circuloCursor = new Circle(0, 0, 100);
+                        }
+
+                        function draw() {
+                            resizeCanvas(windowWidth, windowHeight);
+
+                            circuloCursor.move(mouseX, mouseY);
+
+                            background(220);
+                            // Dibujar un círculo en la posición del cursor.
+                            fill(255, 0, 0, 100);
+                            noStroke();
+                            circuloCursor.draw();
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        // {
+        //     contenido: (thisObj) => {
+        //         return (
+        //             <CodigoConRepresentacion>{`
+        //             `}</CodigoConRepresentacion>
+        //         );
+        //     }
+        // }
     ]
 });

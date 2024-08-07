@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.min.js"></script>
 
-<head>
-     <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Collide-rect-circle</title>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
-     <script src="lib.js"></script>
-</head>
-
+    <script src="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/index.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css"
+    />
+  </head>
 <body>
      <style>
           body {
@@ -24,13 +26,13 @@
      </style>
      <script>
           function setup() {
-               createCanvas(windowWidth - 10, windowHeight - 10);
+               createCanvas(windowWidth, windowHeight );
                circulo = new Circle(0, 0, 100);
                rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150)
           }
 
           function windowResized() {
-               resizeCanvas(windowWidth - 10, windowHeight - 10)
+               resizeCanvas(windowWidth, windowHeight )
                rectangulo = new Rectangle(windowWidth / 2, windowHeight / 2, 150, 150)
           }
 
