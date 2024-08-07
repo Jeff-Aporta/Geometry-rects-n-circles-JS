@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
      <meta charset="UTF-8">
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.min.js"></script>
+
      <script src="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/index.js"></script>
      <link rel="stylesheet" href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css">
 </head>
@@ -18,22 +19,17 @@
                noStroke()
           }
 
-          function windowResized() {
-               resizeCanvas(windowWidth, windowHeight)
-               rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150)
-          }
-
           function draw() {
+               resizeCanvas(windowWidth, windowHeight);
                background(220);
                rectangulo.move(
                     mouseX - rectangulo.w / 2,
                     mouseY - rectangulo.h / 2
-               )
-               fill(255, 0, 0, 100)
-               rectangulo.draw()
+               );
+               fill(255, 0, 0, 100);
+               rectangulo.draw();
           }
      </script>
-
 </body>
 
 </html>

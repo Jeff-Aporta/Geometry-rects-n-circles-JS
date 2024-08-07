@@ -138,15 +138,17 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                         </SubEnvolventeSeccion>
                         <SubEnvolventeSeccion>
                             <FormatoDoc>
-                                Para la representación gráfica se hará uso de la librería p5.js para el tratamiento gráfico en un 
+                                Para la representación gráfica se hará uso de la librería p5.js para el tratamiento gráfico en un
                                 entorno de programación. En particular,
                                 <br /><br />
-                                se presenta un ejemplo de cómo mover un rectángulo en la pantalla siguiendo la posición del ratón. 
-                                La librería p5.js facilita la creación y manipulación de gráficos, permitiendo a los desarrolladores 
+                                se presenta un ejemplo de cómo mover un rectángulo en la pantalla siguiendo la posición del ratón.
+                                La librería p5.js facilita la creación y manipulación de gráficos, permitiendo a los desarrolladores
                                 implementar interacciones visuales de manera sencilla y eficiente.
                             </FormatoDoc>
 
-                            <Code>{`
+                            <CodigoConRepresentacion
+                                url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/rectangle-move.html"
+                            >{`
                                 // Función de configuración inicial
                                 function setup() {
                                     createCanvas(windowWidth, windowHeight);
@@ -166,9 +168,8 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                     // Dibujo del rectángulo en su nueva posición
                                     rectangulo.draw()
                                 }
-                            `}</Code>
+                            `}</CodigoConRepresentacion>
 
-                            <iframe src="src/muestras/rectangle-move.html" class="muestra-code"></iframe>
 
 
                         </SubEnvolventeSeccion>
@@ -179,3 +180,65 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
         },
     ]
 });
+
+function CodigoConRepresentacion({ children, url, p5js = true }) {
+    return <div
+        className={CSScmds(`
+            x<1100px{
+                grid-template-columns: [
+                    repeat(1, 1fr),
+                    repeat(auto-fill, minmax(50%, 1fr))
+                ];
+            }
+        `)}
+        style={{
+            position: 'relative',
+            display: 'inline-grid',
+            justifyContent: 'center',
+            alignItems: 'center',
+            maxWidth: '100%',
+        }}
+    >
+        <Code
+            style={{
+                margin: 0,
+                minWidth: '100%',
+            }}
+            height="60vh"
+        >
+            {children}
+        </Code>
+        <div>
+            <iframe
+                allow="accelerometer; magnetometer; gyroscope;"
+                src={url}
+                style={{
+                    height: "60vh",
+                    margin: 0,
+                    width: "100%",
+                }}
+            />
+            {(() => {
+                if (p5js) {
+                    return <img
+                        className={CSScmds(`
+                            x<1100px{
+                                top: (,25px);
+                                bottom: (15px,)
+                            }
+                        `)}
+                        src="https://jeff-aporta.github.io/portafolio/src/imgs/p5js.svg"
+                        style={{
+                            borderRadius: '7px',
+                            position: 'absolute',
+                            right: "5px",
+                            background: 'white',
+                            width: '50px',
+                            height: '50px',
+                        }}
+                    />
+                }
+            })()}
+        </div>
+    </div>
+}
