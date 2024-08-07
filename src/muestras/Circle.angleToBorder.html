@@ -14,28 +14,35 @@
   </head>
   <body>
     <script>
+      let circuloCentro;
+
+      let angulo = 0;
+
       function setup() {
         createCanvas(windowWidth, windowHeight);
-        // Creación de un circulo en el centro.
-        circulo = new Circle(width / 2, height / 2, 100);
+        circuloCentro = new Circle(width / 2, height / 2, 150);
       }
 
       function windowResized() {
-        circulo.move(width / 2, height / 2);
+        circuloCentro = new Circle(width / 2, height / 2, 150);
       }
 
       function draw() {
         resizeCanvas(windowWidth, windowHeight);
 
-        // Cambio de radio del circulo según la distancia al centro.
-        let d = circulo.distanceCenter(mouseX, mouseY);
-        circulo.r = d;
+        // Se incrementa el ángulo para obtener un punto en la circunferencia.
+        angulo += 0.01;
+        const p = circuloCentro.angleToBorder(angulo);
+
 
         background(220);
+        noStroke();
 
         fill(255, 0, 0, 100);
-        noStroke();
-        circulo.draw();
+        circuloCentro.draw();
+
+        fill("green");
+        circle(p.x, p.y, 10);
       }
     </script>
   </body>

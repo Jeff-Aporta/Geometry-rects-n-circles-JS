@@ -18,9 +18,7 @@
 
       function setup() {
         createCanvas(windowWidth, windowHeight);
-        // Creación de un objeto círculo en el centro del lienzo
         circuloCentro = new Circle(width / 2, height / 2, 150);
-        // Creación de otro objeto círculo.
         circuloCursor = new Circle(0, 0, 100);
       }
 
@@ -31,15 +29,21 @@
       function draw() {
         resizeCanvas(windowWidth, windowHeight);
 
+        // Efecto de arrastre del circulo con el cursor.
         circuloCursor.move(mouseX, mouseY);
+
+        // Se determina si hay colisión entre los dos círculos.
+        const colicionCirculoCirculo = circuloCursor.collideCircle(circuloCentro);
+
+        if (colicionCirculoCirculo) {
+          fill(0, 255, 0, 100); // Verde (Hay colisión).
+        }else{
+          fill(255, 0, 0, 100); // Rojo (No hay colisión).
+        }
 
         background(220);
         noStroke();
-
-        fill(255, 0, 0, 100);
-        if (circuloCursor.collideCircle(circuloCentro)) {
-          fill(0, 255, 0, 100);
-        }
+        
         circuloCursor.draw();
         circuloCentro.draw();
       }

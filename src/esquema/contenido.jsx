@@ -18,6 +18,22 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
             "Usa la API 'https://flagicons.lipis.dev/flags/' para mostrar la bandera del país"
         ]
     },
+    dosParametros: (
+        <ul className="punto-centrico">
+            <LIDoc>
+                (x,y)
+                <p>
+                    Dos parámetros para las coordenadas x e y del punto.
+                </p>
+            </LIDoc>
+            <LIDoc>
+                (obj)
+                <p>
+                    Un objeto con las coordenadas x e y del punto.
+                </p>
+            </LIDoc>
+        </ul>
+    ),
 
     secciones: [
         {
@@ -488,30 +504,123 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
             contenido: (thisObj) => {
                 return (
                     <FormatoDoc>
-                        Los objetos Circle tienen una función distanceCenter(x, y) que calcula la distancia entre el centro del 
-                        círculo y un punto dado (x, y). Esta función es útil para determinar si un punto está dentro del círculo o
+                        Los objetos Circle tienen una función distanceCenter(x, y) que calcula la distancia entre el centro del
+                        círculo y un punto dado,
+                        <small
+                            style={{
+                                opacity: 0.7,
+                            }}
+                        >
+                            &nbsp;(Esta función es útil para determinar si un punto está dentro del círculo).
+                        </small>
                         <p>
-                            La función admite 
+                            La función admite
                             <br />
-                            <ul className="punto-centrico">
-                                <li>
-                                dos parámetros para las coordenadas x e y del punto.
-                                </li>
-                                <li>
-                                pero también puede recibir un objeto con las coordenadas x e y. 
-                                </li>
-                            </ul>
+                            {thisObj.dosParametros}
                             Y retorna la distancia entre el centro del círculo y el punto dado.
                         </p>
                         <Code
+                            linenumbers={false}
                         >{`
                             let circulo1 = new Circle(200, 200, 100);
                             let punto = { x: 300, y: 300 };
 
                             // Calcular la distancia entre el centro del círculo y el punto
-                            let distancia = circulo1.distanceCenter(punto.x, punto.y);
-                            console.log("Distancia al punto:", distancia,"pixeles");
+                            let distancia = circulo1.distanceCenter(punto);
+                            /*
+                                O también se puede hacer:
+                                let distancia = circulo1.distanceCenter(punto.x, punto.y);
+                            */
+                            console.log("Distancia al punto:", distancia, "pixeles");
                         `}</Code>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "Circle.angleCenter(x, y)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <FormatoDoc>
+                        Los objetos Circle tienen una función angleCenter(x, y) que calcula el angulo entre el centro del
+                        círculo y un punto dado.
+                        <p>
+                            La función admite
+                            <br />
+                            {thisObj.dosParametros}
+                            Y retorna el ángulo en radianes entre el centro del círculo y el punto dado.
+                        </p>
+                        <Code
+                            linenumbers={false}
+                        >{`
+                            let circulo1 = new Circle(200, 200, 100);
+                            let punto = { x: 300, y: 300 };
+
+                            // Calcular el ángulo entre el centro del círculo y el punto
+                            let angulo = circulo1.angleCenter(punto);
+                            /*
+                                O también se puede hacer:
+                                let angulo = circulo1.angleCenter(punto.x, punto.y);
+                            */
+                            console.log("Ángulo al punto:", angulo, "radianes");
+                        `}</Code>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "Circle.angleToBorder(a, dr = 0)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <FormatoDoc>
+                        Los objetos Circle tienen una función angleCenter(x, y) que calcula el angulo entre el centro del
+                        círculo y un punto dado.
+                        <p>
+                            La función admite únicamente angulos en radianes y un valor opcional dr que representa un
+                            desfase en el radio del círculo.
+                            <p>
+                                retorna un objeto con las coordenadas x e y del punto en el borde del círculo en el ángulo dado y
+                                con el desfase de radio especificado.
+                            </p>
+                        </p>
+                        <CodigoConRepresentacion
+                            titulo="Punto en el borde del círculo"
+                            desc="Ejemplo de cómo obtener las coordenadas de un punto en el borde de un círculo."
+                            url="src/muestras/Circle.angleToBorder.html"
+                        >{`
+                            let circuloCentro;
+
+                            let angulo = 0;
+
+                            function setup() {
+                                createCanvas(windowWidth, windowHeight);
+                                circuloCentro = new Circle(width / 2, height / 2, 150);
+                            }
+
+                            function windowResized() {
+                                circuloCentro = new Circle(width / 2, height / 2, 150);
+                            }
+
+                            function draw() {
+                                resizeCanvas(windowWidth, windowHeight);
+
+                                // Se incrementa el ángulo para obtener un punto en la circunferencia.
+                                angulo += 0.01;
+                                const p = circuloCentro.angleToBorder(angulo);
+
+
+                                background(220);
+                                noStroke();
+
+                                fill(255, 0, 0, 100);
+                                circuloCentro.draw();
+
+                                fill("green");
+                                circle(p.x, p.y, 10);
+                            }
+                        `}</CodigoConRepresentacion>
                     </FormatoDoc>
                 );
             }
@@ -523,7 +632,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                 return (
                     <CodigoConRepresentacion
                         titulo="Mover un círculo"
-                        desc="Ejemlo de cómo mover un círculo en la pantalla siguiendo la posición del cursor."
+                        desc="Ejemplo de cómo mover un círculo en la pantalla siguiendo la posición del cursor."
                         url="src/muestras/circle-move.html"
                     >{`
                         let circuloCursor;
@@ -549,13 +658,234 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                 );
             }
         },
-        // {
-        //     contenido: (thisObj) => {
-        //         return (
-        //             <CodigoConRepresentacion>{`
-        //             `}</CodigoConRepresentacion>
-        //         );
-        //     }
-        // }
+        {
+            nombre: "GET/SET Circle.r",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Redimensionar un círculo"
+                        desc="Ejemplo de cómo cambiar el tamaño de un círculo, en este caso siguiendo la posición del cursor."
+                        url="src/muestras/circle-resize.html"
+                    >{`
+                        let circulo;
+
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            // Creación de un circulo en el centro.
+                            circulo = new Circle(width / 2, height / 2, 100);
+                        }
+
+                        function draw() {
+                            // Cambio de radio del circulo según la distancia al centro.
+                            let d = circulo.distanceCenter(mouseX, mouseY);
+                            circulo.r = d;
+
+                            background(220);
+
+                            fill(255, 0, 0, 100);
+                            noStroke();
+                            circulo.draw();
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Circle.toRect()",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Rectángulo que contiene un círculo"
+                        desc="Ejemplo de cómo crear un rectángulo que contiene un círculo y seguir su posición."
+                        url="src/muestras/circle-outer-rectangle.html"
+                    >{`
+                            let circulo;
+
+                            function setup() {
+                                createCanvas(windowWidth, windowHeight);
+                                // Creación de un circulo.
+                                circulo = new Circle(0, 0, 100);
+                            }
+
+                            function draw() {
+                                // Efecto de arrastre del circulo con el cursor.
+                                circulo.move(mouseX, mouseY);
+                                // Creación de un rectángulo que contiene al circulo.
+                                const rect = circulo.toRect();
+
+                                background(220);
+                                noStroke();
+
+                                fill(255, 0, 0, 100);
+                                circulo.draw();
+
+                                stroke(255, 0, 0);
+                                noFill();
+                                rect.draw();
+                            }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Circle.collidePoint(x, y)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Colisión punto-círculo"
+                        desc="Ejemplo de cómo detectar si un punto colisiona con un círculo, en este caso con el cursor."
+                        url="src/muestras/circle-collide-point.html"
+                    >{`
+                        let circulo;
+
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            circulo = new Circle(width / 2, height / 2, 100);
+                        }
+
+                        function draw() {
+                            // Se determina si la posición del cursor colisiona con el círculo.
+                            const colicionPuntoCirculo = circulo.collidePoint(mouseX, mouseY);
+
+                            if (colicionPuntoCirculo) {
+                                fill(0, 255, 0, 100); // Verde (Hay colisión).
+                            } else {
+                                fill(255, 0, 0, 100); // Rojo (No hay colisión).
+                            }
+
+                            background(220);
+                            noStroke();
+                            circulo.draw();
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Circle.collideRect(rect)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Colisión círculo-rectángulo"
+                        desc="Ejemplo de cómo detectar si un círculo colisiona con un rectángulo."
+                        url="src/muestras/circle-rect-collide.html"
+                    >{`
+                        let circulo, rectangulo;
+
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            circulo = new Circle(0, 0, 100);
+                            rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150);
+                        }
+
+                        function draw() {
+                            // Efecto de arrastre del circulo con el cursor.
+                            circulo.move(mouseX, mouseY);
+
+                            // Se determina si hay colisión entre el circulo y el rectángulo.
+                            const hayColicionCirculoRectangulo = circulo.collideRect(rectangulo);
+
+                            if (hayColicionCirculoRectangulo) {
+                                fill(128, 200, 0, 100); // Verde (Hay colisión).
+                            }else{
+                                fill(255, 0, 0, 100); // Rojo (No hay colisión).
+                            }
+
+                            background(220);
+
+                            noStroke();
+                            circulo.draw();
+                            rectangulo.draw();
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Circle.collideCircle(otherCircle)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Colisión círculo-círculo"
+                        desc="Ejemplo de cómo detectar si dos círculos colisionan entre sí."
+                        url="src/muestras/circle-collide-circle.html"
+                    >{`
+                        let circuloCursor, circuloCentro;
+
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            circuloCentro = new Circle(width / 2, height / 2, 150);
+                            circuloCursor = new Circle(0, 0, 100);
+                        }
+
+                        function draw() {
+                            // Efecto de arrastre del circulo con el cursor.
+                            circuloCursor.move(mouseX, mouseY);
+
+                            // Se determina si hay colisión entre los dos círculos.
+                            const colicionCirculoCirculo = circuloCursor.collideCircle(circuloCentro);
+
+                            if (colicionCirculoCirculo) {
+                                fill(0, 255, 0, 100); // Verde (Hay colisión).
+                            }else{
+                                fill(255, 0, 0, 100); // Rojo (No hay colisión).
+                            }
+
+                            background(220);
+                            noStroke();
+                            
+                            circuloCursor.draw();
+                            circuloCentro.draw();
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Circle.isInside_circle(otherCircle)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="¿Está un círculo dentro de otro?"
+                        desc="Ejemplo de cómo determinar si un círculo está completamente dentro de otro círculo."
+                        url="src/muestras/circle-detection-inside.html"
+                    >{`
+                        let circuloCursor, circuloCentro;
+
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            circuloCursor = new Circle(0, 0, 100);
+                            circuloCentro = new Circle(width / 2, height / 2, 150);
+                        }
+
+                        function draw() {
+                            // Efecto de arrastre del circulo con el cursor.
+                            circuloCursor.move(mouseX, mouseY);
+
+                            // Se determina si el circulo del cursor está dentro del circulo del centro.
+                            const estaDentro = circuloCursor.isInside_circle(circuloCentro);
+
+                            if (estaDentro) {
+                                fill(0, 255, 0, 100); // Verde (Hay colisión).
+                            } else {
+                                fill(255, 0, 0, 100); // Rojo (No hay colisión).
+                            }
+
+                            background(220);
+
+                            noStroke();
+                            circuloCursor.draw();
+                            circuloCentro.draw();
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
     ]
 });

@@ -12,35 +12,41 @@
       href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css"
     />
   </head>
-<body>
-     
-     <script>
-           function setup() {
-               createCanvas(windowWidth, windowHeight );
-               circulo = new Circle(0, 0, 100);
-               circulo2 = new Circle(width / 2, height / 2, 150)
-          }
+  <body>
+    <script>
+      let circuloCursor, circuloCentro;
 
-          function windowResized() {
-               resizeCanvas(windowWidth, windowHeight )
-               circulo2 = new Circle(width / 2, height / 2, 150)
-          }
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        circuloCursor = new Circle(0, 0, 100);
+        circuloCentro = new Circle(width / 2, height / 2, 150);
+      }
 
-          function draw() {
-               background(220);
+      function windowResized() {
+        circuloCentro = new Circle(width / 2, height / 2, 150);
+      }
 
-               noStroke()
-               circulo.move(mouseX, mouseY)
+      function draw() {
+        resizeCanvas(windowWidth, windowHeight);
 
-               fill(255, 0, 0, 100)
-               if (circulo.isInside_circle(circulo2)) {
-                    fill(0, 255, 0, 100)
-               }
-               circulo.draw()
-               circulo2.draw()
-          }
-     </script>
+        // Efecto de arrastre del circulo con el cursor.
+        circuloCursor.move(mouseX, mouseY);
 
-</body>
+        // Se determina si el circulo del cursor está dentro del circulo del centro.
+        const estaDentro = circuloCursor.isInside_circle(circuloCentro);
 
+        if (estaDentro) {
+          fill(0, 255, 0, 100); // Verde (Hay colisión).
+        } else {
+          fill(255, 0, 0, 100); // Rojo (No hay colisión).
+        }
+
+        background(220);
+
+        noStroke();
+        circuloCursor.draw();
+        circuloCentro.draw();
+      }
+    </script>
+  </body>
 </html>

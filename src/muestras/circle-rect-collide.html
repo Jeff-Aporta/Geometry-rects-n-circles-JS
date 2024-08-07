@@ -12,44 +12,41 @@
       href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css"
     />
   </head>
-<body>
-     <style>
-          body {
-               display: flex;
-               justify-content: center;
-               align-items: center;
-               min-height: 100vh;
-               padding: 0;
-               margin: 0;
-               background-color: lightgray;
-          }
-     </style>
-     <script>
-          function setup() {
-               createCanvas(windowWidth, windowHeight );
-               circulo = new Circle(0, 0, 100);
-               rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150)
-          }
+  <body>
+    <script>
+      let circulo, rectangulo;
 
-          function windowResized() {
-               resizeCanvas(windowWidth, windowHeight )
-               rectangulo = new Rectangle(windowWidth / 2, windowHeight / 2, 150, 150)
-          }
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        circulo = new Circle(0, 0, 100);
+        rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150);
+      }
 
-          function draw() {
-               background(220);
+      function windowResized() {
+        rectangulo = new Rectangle(windowWidth / 2, windowHeight / 2, 150, 150);
+      }
 
-               fill(255, 0, 0, 100)
-               noStroke()
-               if (circulo.collideRect(rectangulo)) {
-                    fill(128, 200, 0, 100)
-               }
-               circulo.move(mouseX, mouseY)
-               circulo.draw()
-               rectangulo.draw()
-          }
-     </script>
+      function draw() {
+        resizeCanvas(windowWidth, windowHeight);
 
-</body>
+        // Efecto de arrastre del circulo con el cursor.
+        circulo.move(mouseX, mouseY);
 
+        // Se determina si hay colisión entre el circulo y el rectángulo.
+        const hayColicionCirculoRectangulo = circulo.collideRect(rectangulo);
+
+        if (hayColicionCirculoRectangulo) {
+          fill(128, 200, 0, 100); // Verde (Hay colisión).
+        }else{
+          fill(255, 0, 0, 100); // Rojo (No hay colisión).
+        }
+
+        background(220);
+
+        noStroke();
+        circulo.draw();
+        rectangulo.draw();
+      }
+    </script>
+  </body>
 </html>

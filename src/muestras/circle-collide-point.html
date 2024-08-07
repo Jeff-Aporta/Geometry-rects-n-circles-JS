@@ -12,34 +12,34 @@
       href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css"
     />
   </head>
-<body>
-     
-     <script>
-          function setup() {
-               createCanvas(windowWidth, windowHeight );
-               circulo = new Circle(width / 2, height / 2, 100);
-               noStroke()
-          }
+  <body>
+    <script>
+      let circulo;
 
-          function windowResized() {
-               resizeCanvas(windowWidth, windowHeight )
-               noStroke()
-               circulo.move(width / 2, height / 2);
-          }
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        circulo = new Circle(width / 2, height / 2, 100);
+      }
 
-          function draw() {
-               background(220);
+      function windowResized() {
+        circulo.move(width / 2, height / 2);
+      }
 
-               fill(255, 0, 0, 100)
-               if (circulo.collidePoint(mouseX, mouseY)) {
-                    fill(0, 255, 0, 100)
-               } else {
-                    fill(255, 0, 0, 100)
-               }
-               circulo.draw()
-          }
-     </script>
+      function draw() {
+        resizeCanvas(windowWidth, windowHeight);
+        background(220);
 
-</body>
+        const colicionPuntoCirculo = circulo.collidePoint(mouseX, mouseY);
 
+        if (colicionPuntoCirculo) {
+          fill(0, 255, 0, 100); // Verde (Hay colisión).
+        } else {
+          fill(255, 0, 0, 100); // Rojo (No hay colisión).
+        }
+
+        noStroke();
+        circulo.draw();
+      }
+    </script>
+  </body>
 </html>

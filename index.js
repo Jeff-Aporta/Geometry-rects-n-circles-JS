@@ -51,7 +51,7 @@ class Circle {
 
   collidePoint(x, y) {
     let d;
-    if (x instanceof p5.Vector || x instanceof Object) {
+    if (x instanceof Object) {
       d = this.distanceCenter(x.x, x.y);
     } else {
       d = this.distanceCenter(x, y);
@@ -65,11 +65,26 @@ class Circle {
   }
 
   distanceCenter(x, y) {
-    if (x instanceof p5.Vector || x instanceof Object) {
+    if (x instanceof Object) {
       y = x.y;
       x = x.x;
     }
     return ((this.center.x - x) ** 2 + (this.center.y - y) ** 2) ** 0.5;
+  }
+
+  angleCenter(x, y) {
+    if (x instanceof Object) {
+      y = x.y;
+      x = x.x;
+    }
+    return atan2(this.center.y - y, this.center.x - x);
+  }
+
+  angleToBorder(a, dr = 0) {
+    return {
+      x: this.x + (this.r + dr) * Math.cos(a),
+      y: this.y + (this.r + dr) * Math.sin(a),
+    }
   }
 
   set center(centro) {
@@ -107,7 +122,7 @@ class Rectangle {
   }
 
   collidePoint(x, y) {
-    if (x instanceof p5.Vector || x instanceof Object) {
+    if (x instanceof Object) {
       y = x.y;
       x = x.x;
     }
@@ -305,7 +320,12 @@ class Rectangle {
   }
 
   get _defined() {
-    return (this.x ?? false) && (this.y ?? false) && (this.w ?? false) && (this.h ?? false);
+    return (
+      (this.x ?? false) &&
+      (this.y ?? false) &&
+      (this.w ?? false) &&
+      (this.h ?? false)
+    );
   }
 
   draw() {

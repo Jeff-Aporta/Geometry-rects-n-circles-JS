@@ -12,31 +12,34 @@
       href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css"
     />
   </head>
-<body>
-     
-     <script>
-          function setup() {
-               createCanvas(windowWidth, windowHeight );
-               circulo = new Circle(0, 0, 100);
-          }
+  <body>
+    <script>
+      let circulo;
 
-          function windowResized() {
-               resizeCanvas(windowWidth, windowHeight )
-          }
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        // Creación de un circulo.
+        circulo = new Circle(0, 0, 100);
+      }
 
-          function draw() {
-               background(220);
+      function draw() {
+        resizeCanvas(windowWidth, windowHeight);
 
-               fill(255, 0, 0, 100)
-               noStroke()
-               circulo.move(mouseX, mouseY)
-               circulo.draw()
-               stroke(255, 0, 0)
-               noFill()
-               circulo.toRect().draw()
-          }
-     </script>
+        // Efecto de arrastre del circulo con el cursor.
+        circulo.move(mouseX, mouseY);
+        // Creación de un rectángulo que contiene al circulo.
+        const rect = circulo.toRect();
 
-</body>
+        background(220);
+        noStroke();
 
+        fill(255, 0, 0, 100);
+        circulo.draw();
+
+        stroke(255, 0, 0);
+        noFill();
+        rect.draw();
+      }
+    </script>
+  </body>
 </html>
