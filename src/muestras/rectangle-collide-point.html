@@ -1,52 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.min.js"></script>
 
-<head>
-     <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Collide-rect-circle</title>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
-     <script src="lib.js"></script>
-</head>
+    <script src="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/index.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css"
+    />
+  </head>
 
-<body>
-     <style>
-          body {
-               padding: 0;
-               margin: 0;
-          }
-     </style>
-     <script>
-          function setup() {
-               createCanvas(windowWidth - 10, windowHeight - 10);
-               rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150)
-               noStroke()
-          }
+  <body>
+    <script>
+      // Función de configuración inicial
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        // Creación de un objeto rectángulo en el centro del lienzo
+        rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150);
+      }
 
-          function windowResized() {
-               resizeCanvas(windowWidth - 10, windowHeight - 10)
-               rectangulo = new Rectangle(
-                    (windowWidth - rectangulo.w) / 2,
-                    (windowHeight - rectangulo.h) / 2,
-                    rectangulo.w,
-                    rectangulo.h
-               )
-          }
+      function windowResized() {
+        rectangulo = new Rectangle(
+          (windowWidth - rectangulo.w) / 2,
+          (windowHeight - rectangulo.h) / 2,
+          rectangulo.w,
+          rectangulo.h
+        );
+      }
 
-          function draw() {
-               background(220);
-
-               noStroke()
-               if (rectangulo.collidePoint(mouseX, mouseY)) {
-                    fill(0, 255, 0, 100)
-               } else {
-                    fill(255, 0, 0, 100)
-               }
-               rectangulo.draw()
-          }
-     </script>
-
-</body>
-
+      function draw() {
+        // Verificación de colisión entre el rectángulo y el punto del mouse
+        const colisionPuntoRectangulo = rectangulo.collidePoint(mouseX, mouseY);
+        if (colisionPuntoRectangulo) {
+          fill(0, 255, 0, 100); // Verde (Hay colisión)
+        } else {
+          fill(255, 0, 0, 100); // Rojo (No hay colisión)
+        }
+        resizeCanvas(windowWidth - 10, windowHeight - 10);
+        // Dibujado del rectángulo indicando si hay colisión o no
+        background(220);
+        noStroke();
+        rectangulo.draw();
+      }
+    </script>
+  </body>
 </html>

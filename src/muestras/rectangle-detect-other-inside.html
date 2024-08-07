@@ -2,49 +2,54 @@
 <html lang="en">
 
 <head>
-     <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Collide-rect-circle</title>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
-     <script src="lib.js"></script>
+     <meta charset="UTF-8" />
+     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.min.js"></script>
+ 
+     <script src="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/index.js"></script>
+     <link
+       rel="stylesheet"
+       href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css"
+     />
 </head>
 
 <body>
-     <style>
-          body {
-               padding: 0;
-               margin: 0;
-          }
-     </style>
      <script>
+          // Función de configuración inicial
           function setup() {
-               createCanvas(windowWidth - 10, windowHeight - 10);
-               circulo = new Circle(0, 0, 100);
+               createCanvas(windowWidth, windowHeight);
+               // Creación de un objeto rectángulo en el centro del lienzo.
                rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150)
+               // Creación de un segundo objeto rectángulo.
                rectangulo2 = new Rectangle(0, 0, 70, 70);
                noStroke()
           }
 
           function windowResized() {
-               resizeCanvas(windowWidth - 10, windowHeight - 10)
                rectangulo = new Rectangle(windowWidth / 2, windowHeight / 2, 150, 150)
           }
 
           function draw() {
-               background(220);
+               resizeCanvas(windowWidth, windowHeight);
 
-               rectangulo2.move(mouseX - 35, mouseY - 35)
+               // Se mueve el segundo rectángulo a la posición del mouse.
+               rectangulo2.move(mouseX - 35, mouseY - 35);
 
-               fill(255, 0, 0, 100)
-               if (rectangulo2.isInside(rectangulo)) {
-                    fill(0, 255, 0, 100)
+               const estaDentro = rectangulo2.isInside(rectangulo)
+
+               if (estaDentro) {
+                    fill(0, 255, 0, 100); // Verde (Está dentro)
+               }else{
+                    fill(255, 0, 0, 100); // Rojo (No está dentro)
                }
+
+               // Dibujado de los rectángulos, indicando si está dentro o no
+               background(220);
                rectangulo.draw()
                rectangulo2.draw()
           }
      </script>
-
 </body>
 
 </html>

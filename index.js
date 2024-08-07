@@ -305,7 +305,7 @@ class Rectangle {
   }
 
   get _defined() {
-    return this.x && this.y && this.w && this.h;
+    return (this.x ?? false) && (this.y ?? false) && (this.w ?? false) && (this.h ?? false);
   }
 
   draw() {

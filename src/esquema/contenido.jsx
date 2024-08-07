@@ -142,103 +142,296 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 entorno de programación. En particular,
                                 <br /><br />
                                 se presenta un ejemplo de cómo mover un rectángulo en la pantalla siguiendo la posición del ratón.
-                                La librería p5.js facilita la creación y manipulación de gráficos, permitiendo a los desarrolladores
-                                implementar interacciones visuales de manera sencilla y eficiente.
+                                La librería p5.js facilita la creación y manipulación de gráficos.
                             </FormatoDoc>
-
-                            <CodigoConRepresentacion
-                                url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/rectangle-move.html"
-                            >{`
-                                // Función de configuración inicial
-                                function setup() {
-                                    createCanvas(windowWidth, windowHeight);
-                                    // Creación de un objeto rectángulo en el centro del lienzo
-                                    rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150)
-                                }
-
-                                function draw() {
-                                    background(220);
-                                    // Actualización de la posición del rectángulo según la posición del ratón
-                                    rectangulo.move(
-                                            mouseX - rectangulo.w / 2,
-                                            mouseY - rectangulo.h / 2
-                                    )
-                                    fill(255, 0, 0, 100)
-                                    noStroke()
-                                    // Dibujo del rectángulo en su nueva posición
-                                    rectangulo.draw()
-                                }
-                            `}</CodigoConRepresentacion>
-
-
-
                         </SubEnvolventeSeccion>
 
                     </FormatoDoc>
                 );
             },
         },
+        {
+            nombre: "Rectangle.move(x, y)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Mover un rectángulo"
+                        desc="Ejemplo de cómo mover un rectángulo, en este caso siguiendo la posición del ratón."
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/rectangle-move.html"
+                    >{`
+                        // Función de configuración inicial
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            // Creación de un objeto rectángulo en el centro del lienzo
+                            rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150)
+                        }
+
+                        function draw() {
+                            // Actualización de la posición del rectángulo según la posición del ratón
+                            rectangulo.move(
+                                    mouseX - rectangulo.w / 2,
+                                    mouseY - rectangulo.h / 2
+                            )
+                            // Dibujo del rectángulo en su nueva posición
+                            background(220);
+                            fill(255, 0, 0, 100)
+                            noStroke()
+                            rectangulo.draw()
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Rectangle.resize(w, h)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Redimensionar un rectángulo"
+                        desc="Ejemplo de cómo cambiar el tamaño de un rectángulo, en este caso siguiendo la posición del ratón."
+                        url="src/muestras/rectangle-resize.html"
+                    >{`
+                        // Función de configuración inicial
+                        function setup() {
+                            createCanvas(windowWidth - 10, windowHeight - 10);
+                            rectangulo = new Rectangle(width / 2, height / 2, 150, 150);
+                        }
+
+                        function draw() {
+                            rectangulo.resize(
+                                mouseX - rectangulo.x, 
+                                mouseY - rectangulo.y
+                            );
+                            // Dibujo del rectángulo en su nueva posición
+                            background(220);
+                            fill(255, 0, 0, 100);
+                            stroke(0);
+                            strokeWeight(1);
+                            line(rectangulo.x, rectangulo.y, mouseX, mouseY);
+                            rectangulo.draw();
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Rectangle.collidePoint(x, y)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Colisión punto-rectángulo"
+                        desc="Ejemplo de cómo detectar si un punto colisiona con un rectángulo, en este caso siguiendo la posición del ratón."
+                        url="src/muestras/rectangle-collide-point.html"
+                    >{`
+                        // Función de configuración inicial
+                        function setup() {
+                            createCanvas(windowWidth - 10, windowHeight - 10);
+                            rectangulo = new Rectangle(width / 2, height / 2, 150, 150);
+                        }
+
+                        function draw() {
+                            rectangulo.resize(
+                                mouseX - rectangulo.x, 
+                                mouseY - rectangulo.y
+                            );
+                            // Dibujo del rectángulo en su nueva posición
+                            background(220);
+                            fill(255, 0, 0, 100);
+                            stroke(0);
+                            strokeWeight(1);
+                            line(rectangulo.x, rectangulo.y, mouseX, mouseY);
+                            rectangulo.draw();
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Rectangle.isInside(otherRect)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="¿Está un rectángulo dentro de otro?"
+                        desc="Ejemplo de cómo detectar si un rectángulo está completamente dentro de otro rectángulo."
+                        url="src/muestras/rectangle-collide-rectangle.html"
+                    >{`
+                        // Función de configuración inicial
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            // Creación de un objeto rectángulo en el centro del lienzo.
+                            rectangulo = new Rectangle(width / 2 - 150, height / 2 - 50, 300, 100)
+                            // Creación de un segundo objeto rectángulo.
+                            rectangulo2 = new Rectangle(0, 0, 150, 150);
+                            noStroke()
+                        }
+
+                        function draw() {
+                            // Verificación de colisión entre los dos rectángulos.
+                            const colisionRectanguloRectangulo = rectangulo.isInside(rectangulo2);
+                            if (colisionRectanguloRectangulo) {
+                                fill(0, 255, 0, 100) // Verde (Hay colisión)
+                            }
+                            else {
+                                fill(255, 0, 0, 100) // Rojo (No hay colisión)
+                            }
+                            resizeCanvas(windowWidth, windowHeight)
+                            // Dibujado del rectángulo indicando si hay colisión o no
+                            background(220);
+                            noStroke()
+                            rectangulo.draw()
+                            rectangulo2.move(
+                                    mouseX - rectangulo2.w / 2,
+                                    mouseY - rectangulo2.h / 2
+                            )
+                            rectangulo2.draw()
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Rectangle.collideRect(otherRect)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Colisión rectángulo-rectángulo"
+                        desc="Ejemplo de cómo detectar si dos rectángulos colisionan entre sí."
+                        url="src/muestras/rectangle-collide-rectangle.html"
+                    >{`
+                        // Función de configuración inicial
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            // Creación de un objeto rectángulo en el centro del lienzo.
+                            rectangulo = new Rectangle(width / 2 - 150, height / 2 - 50, 300, 100);
+                            // Creación de un segundo objeto rectángulo.
+                            rectangulo2 = new Rectangle(0, 0, 150, 150);
+                            noStroke();
+                        }
+
+                        function draw() {
+                            // Verificación de colisión entre los dos rectángulos.
+                            const colisionRectanguloRectangulo = rectangulo.collideRect(rectangulo2);
+
+                            if (colisionRectanguloRectangulo) {
+                                fill(0, 255, 0, 100); // Verde (Hay colisión)
+                            } else {
+                                fill(255, 0, 0, 100); // Rojo (No hay colisión)
+                            }
+
+                            // Dibujado del rectángulo indicando si hay colisión o no
+                            background(220);
+                            noStroke();
+                            rectangulo.draw();
+                            rectangulo2.move(
+                                mouseX - rectangulo2.w / 2,
+                                mouseY - rectangulo2.h / 2
+                            );
+                            rectangulo2.draw();
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Rectangle.intersect(otherRect)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Intersección de rectángulos"
+                        desc="Ejemplo de cómo calcular la intersección entre dos rectángulos."
+                        url="src/muestras/rectangle-intersect.html"
+                    >{`
+                        // Función para ajustar las propiedades iniciales del proyecto
+                        function setup() {
+                            createCanvas(windowWidth - 10, windowHeight - 10);
+                            rectangulo = new Rectangle(width / 2 - 150, height / 2 - 50, 300, 100);
+                            rectangulo2 = new Rectangle(0, 0, 100, 300);
+                        }
+
+                        function draw() {
+                            rectangulo2.move(
+                                mouseX - rectangulo2.w / 2,
+                                mouseY - rectangulo2.h / 2
+                            );
+
+                            background(220);
+
+                            fill(255, 0, 0, 100); // Rojo para los rectangulos a intersectar
+                            rectangulo.draw();
+                            rectangulo2.draw();
+
+                            let intersecto = rectangulo2.intersect(rectangulo);
+                            fill(0, 255, 0, 100); // Verde para el intersecto
+                            intersecto.draw();
+
+                            noStroke();
+                            fill("black");
+                            textAlign(CENTER, CENTER);
+                            text("Intersecto", intersecto.centerX, intersecto.centerY);
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Rectangle.union(otherRect)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Unión de rectángulos"
+                        desc="Ejemplo de cómo calcular la unión entre dos rectángulos."
+                        url="src/muestras/rectangle-union.html"
+                    >{`
+                        // Función para ajustar las propiedades iniciales del proyecto
+                        function setup() {
+                            createCanvas(windowWidth , windowHeight);
+                            rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150);
+                            rectangulo2 = new Rectangle(0, 0, 150, 150);
+                        }
+
+                        function draw() {
+                            //efecto de reposición con el mouse
+                            rectangulo2.move(
+                                mouseX - rectangulo2.w / 2,
+                                mouseY - rectangulo2.h / 2
+                            );
+
+                            //Dibujado de los rectángulos
+
+                            background(220);
+
+                            //Ajustes gráficos
+                            noStroke();
+                            fill(255, 0, 0, 100);
+
+                            //Dibujado de los rectángulos a unir
+                            rectangulo.draw();
+                            rectangulo2.draw();
+
+
+                            let union = rectangulo.union(rectangulo2);
+                            
+                            //Dibujado de la unión
+                            noFill();
+                            stroke(255, 0, 0);
+                            strokeWeight(1);
+                            union.draw();
+
+                            noStroke();
+                            fill("black");
+                            textAlign(CENTER, CENTER);
+                            text("unión", union.centerX, union.centerY);
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
     ]
 });
-
-function CodigoConRepresentacion({ children, url, p5js = true }) {
-    return <div
-        className={CSScmds(`
-            x<1100px{
-                grid-template-columns: [
-                    repeat(1, 1fr),
-                    repeat(auto-fill, minmax(50%, 1fr))
-                ];
-            }
-        `)}
-        style={{
-            position: 'relative',
-            display: 'inline-grid',
-            justifyContent: 'center',
-            alignItems: 'center',
-            maxWidth: '100%',
-        }}
-    >
-        <Code
-            style={{
-                margin: 0,
-                minWidth: '100%',
-            }}
-            height="60vh"
-        >
-            {children}
-        </Code>
-        <div>
-            <iframe
-                allow="accelerometer; magnetometer; gyroscope;"
-                src={url}
-                style={{
-                    height: "60vh",
-                    margin: 0,
-                    width: "100%",
-                }}
-            />
-            {(() => {
-                if (p5js) {
-                    return <img
-                        className={CSScmds(`
-                            x<1100px{
-                                top: (,25px);
-                                bottom: (15px,)
-                            }
-                        `)}
-                        src="https://jeff-aporta.github.io/portafolio/src/imgs/p5js.svg"
-                        style={{
-                            borderRadius: '7px',
-                            position: 'absolute',
-                            right: "5px",
-                            background: 'white',
-                            width: '50px',
-                            height: '50px',
-                        }}
-                    />
-                }
-            })()}
-        </div>
-    </div>
-}

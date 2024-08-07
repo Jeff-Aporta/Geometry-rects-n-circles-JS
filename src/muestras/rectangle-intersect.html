@@ -1,64 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+  <head>
+     <meta charset="UTF-8" />
+     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.min.js"></script>
+ 
+     <script src="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/index.js"></script>
+     <link
+       rel="stylesheet"
+       href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css"
+     />
+  </head>
 
-<head>
-     <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Collide-rect-circle</title>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
-     <script src="lib.js"></script>
-</head>
+  <body>
+    <script>
+      // Función para ajustar las propiedades iniciales del proyecto
+      function setup() {
+        createCanvas(windowWidth - 10, windowHeight - 10);
+        rectangulo = new Rectangle(width / 2 - 150, height / 2 - 50, 300, 100);
+        rectangulo2 = new Rectangle(0, 0, 100, 300);
+      }
 
-<body>
-     <style>
-          body {
-               padding: 0;
-               margin: 0;
-          }
-     </style>
-     <script>
-          function setup() {
-               createCanvas(windowWidth - 10, windowHeight - 10);
-               circulo = new Circle(0, 0, 100);
-               rectangulo = new Rectangle(width / 2 - 150, height / 2 - 50, 300, 100)
-               rectangulo2 = new Rectangle(0, 0, 100, 300);
-               noStroke()
-               textAlign(CENTER,CENTER)
-          }
+      function windowResized() {
+        rectangulo = new Rectangle(
+          (windowWidth - rectangulo.w) / 2,
+          (windowHeight - rectangulo.h) / 2,
+          rectangulo.w,
+          rectangulo.h
+        );
+      }
 
-          function windowResized() {
-               resizeCanvas(windowWidth - 10, windowHeight - 10)
-               rectangulo = new Rectangle(
-                    (windowWidth - rectangulo.w) / 2,
-                    (windowHeight - rectangulo.h) / 2,
-                    rectangulo.w,
-                    rectangulo.h
-               )
-          }
+      function draw() {
+        resizeCanvas(windowWidth, windowHeight);
 
-          function draw() {
-               background(220);
+        rectangulo2.move(
+          mouseX - rectangulo2.w / 2,
+          mouseY - rectangulo2.h / 2
+        );
 
-               rectangulo2.move(
-                    mouseX - rectangulo2.w / 2,
-                    mouseY - rectangulo2.h / 2
-               )
+        background(220);
 
-               fill(255, 0, 0, 100)
-               rectangulo.draw()
-               rectangulo2.draw()
-               fill(0, 255, 0, 100)
-               let intersecto = rectangulo2.intersect(rectangulo)
-               intersecto.draw();
+        fill(255, 0, 0, 100); // Rojo para los rectangulos a intersectar
+        rectangulo.draw();
+        rectangulo2.draw();
 
+        let intersecto = rectangulo2.intersect(rectangulo);
+        fill(0, 255, 0, 100); // Verde para el intersecto
+        intersecto.draw();
 
-               noStroke()
-               fill("black")
-               text("Intersecto", intersecto.centerX, intersecto.centerY)
-          }
-     </script>
-
-</body>
-
+        noStroke();
+        fill("black");
+        textAlign(CENTER, CENTER);
+        text("Intersecto", intersecto.centerX, intersecto.centerY);
+      }
+    </script>
+  </body>
 </html>

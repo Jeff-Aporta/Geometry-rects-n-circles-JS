@@ -1,75 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.min.js"></script>
 
-<head>
-     <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Collide-rect-circle</title>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
-     <script src="lib.js"></script>
-</head>
+    <script src="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/index.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css"
+    />
+  </head>
 
-<body>
-     <style>
-          body {
-               padding: 0;
-               margin: 0;
-          }
-     </style>
-     <script>
-          function setup() {
-               createCanvas(windowWidth - 10, windowHeight - 10);
-               circulo = new Circle(0, 0, 100);
-               rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150)
-               rectangulo2 = new Rectangle(0, 0, 150, 150);
-               noStroke()
-               textAlign(CENTER, CENTER)
-          }
+  <body>
+    <script>
+      // Función para ajustar las propiedades iniciales del proyecto
+      function setup() {
+        createCanvas(windowWidth , windowHeight);
+        rectangulo = new Rectangle(width / 2 - 75, height / 2 - 75, 150, 150);
+        rectangulo2 = new Rectangle(0, 0, 150, 150);
+      }
 
-          function windowResized() {
-               resizeCanvas(windowWidth - 10, windowHeight - 10)
-               rectangulo = new Rectangle(
-                    (windowWidth - rectangulo.w) / 2,
-                    (windowHeight - rectangulo.h) / 2,
-                    rectangulo.w,
-                    rectangulo.h
-               )
-          }
+      function windowResized() {
+        rectangulo = new Rectangle(
+          (windowWidth - rectangulo.w) / 2,
+          (windowHeight - rectangulo.h) / 2,
+          rectangulo.w,
+          rectangulo.h
+        );
+      }
 
-          function draw() {
-               background(220);
+      function draw() {
+        resizeCanvas(windowWidth, windowHeight);
 
-               //efecto de reposición con el mouse
+        //efecto de reposición con el mouse
+        rectangulo2.move(
+          mouseX - rectangulo2.w / 2,
+          mouseY - rectangulo2.h / 2
+        );
 
-               rectangulo2.move(
-                    mouseX - rectangulo2.w / 2,
-                    mouseY - rectangulo2.h / 2
-               )
+        //Dibujado de los rectángulos
 
-               //Ajustes gráficos
-               noStroke()
-               fill(255, 0, 0, 100)
+        background(220);
 
-               //Dibujado de los rectángulos a unir
-               rectangulo.draw()
-               rectangulo2.draw()
+        //Ajustes gráficos
+        noStroke();
+        fill(255, 0, 0, 100);
 
-               //Ajustes gráficos
-               noFill()
-               stroke(255, 0, 0)
-               strokeWeight(1)
+        //Dibujado de los rectángulos a unir
+        rectangulo.draw();
+        rectangulo2.draw();
 
-               //Dibujado de la unión
-               let union = rectangulo.union(rectangulo2)
-               union.draw()
 
-               noStroke()
-               fill("black")
-               text("unión", union.centerX, union.centerY)
-          }
-     </script>
+        let union = rectangulo.union(rectangulo2);
+        
+        //Dibujado de la unión
+        noFill();
+        stroke(255, 0, 0);
+        strokeWeight(1);
+        union.draw();
 
-</body>
-
+        noStroke();
+        fill("black");
+        textAlign(CENTER, CENTER);
+        text("unión", union.centerX, union.centerY);
+      }
+    </script>
+  </body>
 </html>
