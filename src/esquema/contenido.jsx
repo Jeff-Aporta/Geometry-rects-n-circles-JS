@@ -982,7 +982,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                             // Dibujo del rectángulo en su nueva posición
                             background(30);
                             fill(255, 0, 0, 100);
-                            stroke(0);
+                            stroke(255);
                             strokeWeight(1);
                             line(rectangulo.x, rectangulo.y, mouseX, mouseY);
                             rectangulo.draw();
@@ -1069,7 +1069,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                             intersecto.draw();
 
                             noStroke();
-                            fill("black");
+                            fill("white");
                             textAlign(CENTER, CENTER);
                             text("Intersecto", intersecto.centerX, intersecto.centerY);
                         }
@@ -1125,7 +1125,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                             union.draw();
 
                             noStroke();
-                            fill("black");
+                            fill("white");
                             textAlign(CENTER, CENTER);
                             text("unión", union.centerX, union.centerY);
                         }
@@ -1158,7 +1158,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                             // Dibujo del rectángulo en su nueva posición
                             background(30);
                             fill(255, 0, 0, 100);
-                            stroke(0);
+                            stroke(255);
                             strokeWeight(1);
                             line(rectangulo.x, rectangulo.y, mouseX, mouseY);
                             rectangulo.draw();
