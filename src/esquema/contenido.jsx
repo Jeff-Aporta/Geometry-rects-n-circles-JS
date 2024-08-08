@@ -59,7 +59,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                     xmlns="http://www.w3.org/2000/svg"
                     style={{
                         backgroundColor: "white",
-                        filter: "invert(0.92)",
+                        filter: "invert(0.92) hue-rotate(240deg)",
                         borderRadius: "20px",
                     }}
                 >
@@ -276,7 +276,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                         shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
                         extra={
                             <React.Fragment>
-                                <text x="5" y="-5" font-family="Arial" font-size="12" fill="black">
+                                <text x="5" y="-5" font-family="Arial" font-size="12" fill="blue" font-weight="bold">
                                     pos = {`{x: ${x}, y: ${y}}`}
                                 </text>
                             </React.Fragment>
@@ -445,7 +445,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                         shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
                         extra={
                             <React.Fragment>
-                                <line x1="0" y1={h} x2="0" y2={h} stroke="red" stroke-width="2" />
+                                <line x1="0" y1={h} x2={w} y2={h} stroke="red" stroke-width="2" />
                                 <text x={w / 2} y={h - 5} font-family="Arial" font-size="12" fill="red"
                                     text-anchor="middle"
                                 >
@@ -487,10 +487,10 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                         extra={
                             <React.Fragment>
                                 <line x1="0" y1="0" x2="0" y2={h} stroke="red" stroke-width="2" />
-                                <text x={w / 2} y={h - 5} font-family="Arial" font-size="12" fill="red"
-                                    text-anchor="middle"
+                                <text x="5" y={h / 2} font-family="Arial" font-size="12" fill="red"
+                                    dominant-baseline="middle"
                                 >
-                                    bottom = {y + h}
+                                    left = {x}
                                 </text>
                             </React.Fragment>
                         }
@@ -654,7 +654,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                         extra={
                             <React.Fragment>
                                 <circle cx="0" cy="0" r="3" fill="black" />
-                                <text x="5" y="20" font-family="Arial" font-size="12" fill="black">
+                                <text x="5" y="20" font-family="Arial" font-size="12" fill="blue" font-weight="bold">
                                     topleft = {`{x: ${x}, y: ${y}}`}
                                 </text>
                             </React.Fragment>
@@ -693,8 +693,9 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                         extra={
                             <React.Fragment>
                                 <circle cx={w} cy="0" r="3" fill="black" />
-                                <text x={w} y="-10" font-family="Arial" font-size="12" fill="black"
+                                <text x={w} y="-10" font-family="Arial" font-size="12" fill="blue"
                                     text-anchor="middle"
+                                    font-weight="bold"
                                 >
                                     topright = {`{x: ${x + w}, y: ${y}}`}
                                 </text>
@@ -948,7 +949,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                     mouseY - rectangulo.h / 2
                             )
                             // Dibujo del rectángulo en su nueva posición
-                            background(220);
+                            background(30);
                             fill(255, 0, 0, 100)
                             noStroke()
                             rectangulo.draw()
@@ -979,7 +980,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 mouseY - rectangulo.y
                             );
                             // Dibujo del rectángulo en su nueva posición
-                            background(220);
+                            background(30);
                             fill(255, 0, 0, 100);
                             stroke(0);
                             strokeWeight(1);
@@ -1022,7 +1023,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 fill(255, 0, 0, 100) // Rojo (No hay colisión)
                             }
                             // Dibujado del rectángulo indicando si hay colisión o no
-                            background(220);
+                            background(30);
                             noStroke()
                             rectangulo.draw()
                             rectanguloCursor.draw()
@@ -1057,7 +1058,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 mouseY - rectanguloCursor.h / 2
                             );
 
-                            background(220);
+                            background(30);
 
                             fill(255, 0, 0, 100); // Rojo para los rectangulos a intersectar
                             rectangulo.draw();
@@ -1104,7 +1105,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
 
                             //Dibujado de los rectángulos
 
-                            background(220);
+                            background(30);
 
                             //Ajustes gráficos
                             noStroke();
@@ -1155,7 +1156,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 mouseY - rectangulo.y
                             );
                             // Dibujo del rectángulo en su nueva posición
-                            background(220);
+                            background(30);
                             fill(255, 0, 0, 100);
                             stroke(0);
                             strokeWeight(1);
@@ -1201,7 +1202,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                             }
 
                             // Dibujado del rectángulo indicando si hay colisión o no
-                            background(220);
+                            background(30);
                             noStroke();
                             rectangulo.draw();
                             rectanguloCursor.draw();
@@ -1247,7 +1248,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 fill(255, 0, 0, 100); // Rojo (No hay colisión)
                             }
 
-                            background(220);
+                            background(30);
                             noStroke();
                             rectanguloCentro.draw();
                             circuloCursor.draw();
@@ -1326,7 +1327,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                             let d = circulo.distanceCenter(mouseX, mouseY);
                             circulo.r = d;
 
-                            background(220);
+                            background(30);
 
                             fill(255, 0, 0, 100);
                             noStroke();
@@ -1360,7 +1361,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 // Creación de un rectángulo que contiene al circulo.
                                 const rect = circulo.toRect;
 
-                                background(220);
+                                background(30);
                                 noStroke();
 
                                 fill(255, 0, 0, 100);
@@ -1425,7 +1426,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
 
                             circuloCursor.move(mouseX, mouseY);
 
-                            background(220);
+                            background(30);
                             // Dibujar un círculo en la posición del cursor.
                             fill(255, 0, 0, 100);
                             noStroke();
@@ -1543,7 +1544,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 const p = circuloCentro.angleToBorder(angulo);
 
 
-                                background(220);
+                                background(30);
                                 noStroke();
 
                                 fill(255, 0, 0, 100);
@@ -1586,7 +1587,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 // Se obtiene el punto en la circunferencia más cercano al cursor.
                                 const p = circuloCentro.pointToBorder(mouseX, mouseY);
 
-                                background(220);
+                                background(30);
                                 noStroke();
 
                                 fill(255, 0, 0, 100);
@@ -1631,7 +1632,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 fill(255, 0, 0, 100); // Rojo (No hay colisión).
                             }
 
-                            background(220);
+                            background(30);
 
                             noStroke();
                             circuloCursor.draw();
@@ -1668,7 +1669,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 fill(255, 0, 0, 100); // Rojo (No hay colisión).
                             }
 
-                            background(220);
+                            background(30);
                             noStroke();
                             circulo.draw();
                         }
@@ -1707,7 +1708,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 fill(255, 0, 0, 100); // Rojo (No hay colisión).
                             }
 
-                            background(220);
+                            background(30);
 
                             noStroke();
                             circulo.draw();
@@ -1748,7 +1749,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 fill(255, 0, 0, 100); // Rojo (No hay colisión).
                             }
 
-                            background(220);
+                            background(30);
                             noStroke();
                             
                             circuloCursor.draw();
