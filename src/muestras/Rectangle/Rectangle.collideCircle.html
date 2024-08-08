@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.min.js"></script>
+
+    <script src="/index.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css"
+    />
+  </head>
+
+  <body>
+    <script>
+      let rectanguloCentro, circuloCursor;
+      // Función de configuración inicial
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        // Creación de un objeto rectángulo en el centro del lienzo.
+        rectanguloCentro = new Rectangle(
+          windowWidth / 2 - 150,
+          windowHeight / 2 - 50,
+          300,
+          100
+        );
+        // Creación de un segundo objeto rectángulo.
+        circuloCursor = new Circle(0, 0, 100);
+      }
+
+      function windowResized() {
+        rectanguloCentro = new Rectangle(
+          (windowWidth - rectanguloCentro.w) / 2,
+          (windowHeight - rectanguloCentro.h) / 2,
+          rectanguloCentro.w,
+          rectanguloCentro.h
+        );
+      }
+
+      function draw() {
+        resizeCanvas(windowWidth, windowHeight);
+
+        circuloCursor.move(mouseX, mouseY);
+
+        // Verificación de colisión entre los dos rectángulos.
+        const colisionRectanguloRectangulo =
+          rectanguloCentro.collideCircle(circuloCursor);
+
+        if (colisionRectanguloRectangulo) {
+          fill(0, 255, 0, 100); // Verde (Hay colisión)
+        } else {
+          fill(255, 0, 0, 100); // Rojo (No hay colisión)
+        }
+
+        // Dibujado del rectángulo indicando si hay colisión o no
+        background(220);
+        noStroke();
+        rectanguloCentro.draw();
+        circuloCursor.draw();
+      }
+    </script>
+  </body>
+</html>

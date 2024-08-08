@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.min.js"></script>
+
+    <script src="/index.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/index.css"
+    />
+  </head>
+  <body>
+    <script>
+      let circuloCentro;
+
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        circuloCentro = new Circle(width / 2, height / 2, 150);
+      }
+
+      function windowResized() {
+        circuloCentro = new Circle(width / 2, height / 2, 150);
+      }
+
+      function draw() {
+        resizeCanvas(windowWidth, windowHeight);
+
+        // Se obtiene el punto en la circunferencia más cercano al cursor.
+        const p = circuloCentro.pointToBorder(mouseX, mouseY);
+
+
+        background(220);
+        noStroke();
+
+        fill(255, 0, 0, 100);
+        circuloCentro.draw();
+
+        fill("green");
+        circle(p.x, p.y, 20);
+      }
+    </script>
+  </body>
+</html>

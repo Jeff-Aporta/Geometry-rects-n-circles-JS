@@ -35,6 +35,105 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
         </ul>
     ),
 
+    SVG: function ({ s, children }) {
+        return (
+            <div
+                className={CSScmds(`
+                        x>850px{
+                            ${s ? "margin-right: (20px,);" : ""}
+                            ${s ? "margin-bottom: (20px,);" : ""}
+                            ${!s ? "margin-top: (,20px);" : ""}
+                            ${s ? "text-align: (center,);" : ""}
+                            float: (left, );
+                            text-align: (,center);
+                            display: [
+                                ${s ? "block" : "none"},
+                                ${!s ? "block" : "none"}
+                            ];
+                        }
+                    `)}
+            >
+                <svg
+                    width="250"
+                    height="250"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{
+                        backgroundColor: "white",
+                        filter: "invert(0.92)",
+                        borderRadius: "20px",
+                    }}
+                >
+                    {children}
+                </svg>
+            </div>
+        );
+    },
+
+    DobleSVG: function ({ children, g }) {
+        return (
+            <React.Fragment>
+                <this.SVG s>
+                    {g}
+                </this.SVG>
+                {children}
+                <this.SVG>
+                    {g}
+                </this.SVG>
+            </React.Fragment>
+        );
+    },
+
+    G: function ({ shape, extra, x, y, w, h }) {
+        return (
+            <g
+                transform={`translate(${x}, ${y})`}
+            >
+                {shape}
+                <this.Ejes />
+                {extra}
+                <this.Origen x={x} y={y} />
+            </g>
+        );
+    },
+
+    Origen: function ({ x, y }) {
+        return (
+            <React.Fragment>
+                <text x="-5" y="-5" font-family="Arial" font-size="12" fill="black"
+                    text-anchor="end"
+                >
+                    ({x},{y})
+                </text>
+                <circle cx="0" cy="0" r="5" fill="black" />
+            </React.Fragment>
+        )
+    },
+
+    Ejes: function () {
+        return (
+            <React.Fragment>
+                <line x1="0" y1="-100" x2="0" y2="200" stroke="rgba(0,0,0,0.3)" stroke-width="1" />
+                <line x1="-100" y1="0" x2="200" y2="0" stroke="rgba(0,0,0,0.3)" stroke-width="1" />
+            </React.Fragment>
+        );
+    },
+
+    Code: function ({ children }) {
+        return (
+            <Code
+                linenumbers={false}
+                style={{
+                    width: "auto",
+                }}
+                fullW={false}
+            >
+                {children}
+            </Code>
+        );
+    },
+
+    testR: { x: 60, y: 50, w: 100, h: 120 },
+
     secciones: [
         {
             nombre: "Usar con CDN",
@@ -167,6 +266,665 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
             },
         },
         {
+            nombre: "GET Rectangle.pos",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <text x="5" y="-5" font-family="Arial" font-size="12" fill="black">
+                                    pos = {`{x: ${x}, y: ${y}}`}
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET pos que devuelve la posición superior izquierda del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            let posicion = rectangulo.pos;
+        
+                            console.log("Posición del rectángulo:", posicion);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que la posición devuelta es {`{x: ${x}, y: ${y}}`}.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.size",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <line x1="0" y1="0" x2={w} y2="0" stroke="blue" stroke-width="2" />
+                                <text x={w / 2} y="-5" font-family="Arial" font-size="12" fill="blue"
+                                    text-anchor="middle"
+                                >
+                                    w = {w}
+                                </text>
+                                <line x1="0" y1="0" x2="0" y2={h} stroke="blue" stroke-width="2" />
+                                <text x="-5" y={h / 2} font-family="Arial" font-size="12" fill="blue"
+                                    text-anchor="end"
+                                >
+                                    h = {h}
+                                </text>
+                                <text x={w / 2} y={h / 2} font-family="Arial" font-size="12" fill="black"
+                                    text-anchor="middle" dominant-baseline="middle"
+                                >
+                                    size = [{w},{h}]
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET size que devuelve un array
+                            con el ancho y la altura del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            const sz = rectangulo.size;
+        
+                            console.log("Tamaño del rectángulo:", sz);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que el tamaño devuelto es [{w},{h}].
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.top",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <line x1="0" y1="0" x2={w} y2="0" stroke="red" stroke-width="2" />
+                                <text x={w / 2} y="-5" font-family="Arial" font-size="12" fill="red"
+                                    text-anchor="middle"
+                                >
+                                    top = {y}
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET top que devuelve la coordenada
+                            'y' del borde superior del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            const bordeSuperior = rectangulo.top;
+
+                            console.log("Borde superior del rectángulo:", bordeSuperior);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que el borde derecho devuelto es {y}.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.right",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <line x1={w} y1="0" x2={w} y2={h} stroke="red" stroke-width="2" />
+                                <text x={w + 5} y={h / 2} font-family="Arial" font-size="12" fill="red">
+                                    right = 150
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET right que devuelve la coordenada x
+                            del borde derecho del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            const bordeDerecho = rectangulo.right;
+        
+                            console.log("Borde derecho del rectángulo:", bordeDerecho);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que el borde derecho devuelto es {x + w}.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.bottom",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <line x1="0" y1={h} x2="0" y2={h} stroke="red" stroke-width="2" />
+                                <text x={w / 2} y={h - 5} font-family="Arial" font-size="12" fill="red"
+                                    text-anchor="middle"
+                                >
+                                    bottom = {y + h}
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET bottom que devuelve la coordenada 'y'
+                            del borde inferior del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            let bordeInferior = rectangulo.bottom;
+        
+                            console.log("Borde inferior del rectángulo:", bordeInferior);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que el borde inferior devuelto es {y + h}.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.left",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <line x1="0" y1="0" x2="0" y2={h} stroke="red" stroke-width="2" />
+                                <text x={w / 2} y={h - 5} font-family="Arial" font-size="12" fill="red"
+                                    text-anchor="middle"
+                                >
+                                    bottom = {y + h}
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET left que devuelve la coordenada x
+                            del borde izquierdo del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            let bordeIzquierdo = rectangulo.left;
+        
+                            console.log("Borde izquierdo del rectángulo:", bordeIzquierdo);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que el borde izquierdo devuelto es {x}.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.centerX",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <line x1={w / 2} y1="0" x2={w / 2} y2={h} stroke="rgba(0, 0, 255, 0.4)" stroke-width="1" />
+                                <circle cx={w / 2} cy={h / 2} r="3" fill="black" />
+                                <text x={w / 2} y={h / 2 - 10} font-family="Arial" font-size="12" fill="black"
+                                    text-anchor="middle"
+                                >
+                                    centerX = {w / 2}
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET centerX que devuelve la coordenada x del centro del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            const centroX = rectangulo.centerX;
+        
+                            console.log("Centro X del rectángulo:", centroX);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que el centro X devuelto es {x + w / 2}.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.centerY",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <line x1="0" y1={h / 2} x2={w} y2={h / 2} stroke="rgba(0, 0, 255, 0.4)" stroke-width="1" />
+                                <circle cx={w / 2} cy={h / 2} r="3" fill="black" />
+                                <text x={w / 2} y={h / 2 - 10} font-family="Arial" font-size="12" fill="black"
+                                    text-anchor="middle"
+                                >
+                                    centerY = {h / 2}
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET centerY que devuelve la coordenada y del centro del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            const centroY = rectangulo.centerY;
+        
+                            console.log("Centro Y del rectángulo:", centroY);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que el centro Y devuelto es {y + h / 2}.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.center",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <line x1="0" y1={h / 2} x2={w} y2={h / 2} stroke="rgba(0, 0, 255, 0.4)" stroke-width="1" />
+                                <line x1={w / 2} y1="0" x2={w / 2} y2={h} stroke="rgba(0, 0, 255, 0.4)" stroke-width="1" />
+                                <circle cx={w / 2} cy={h / 2} r="3" fill="black" />
+                                <text x={w / 2} y={h / 2 - 10} font-family="Arial" font-size="12" fill="blue"
+                                    font-weight="bold"
+                                    text-anchor="middle"
+                                >
+                                    center = {`{x: ${x + w / 2}, y: ${y + h / 2} }`}
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET center que devuelve un objeto con las coordenadas
+                            x e y del centro del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            let centro = rectangulo.center;
+        
+                            console.log("Centro del rectángulo:", centro);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que el centro devuelto es {`{x: ${x + w / 2}, y: ${y + h / 2} }`}.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.topleft",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <circle cx="0" cy="0" r="3" fill="black" />
+                                <text x="5" y="20" font-family="Arial" font-size="12" fill="black">
+                                    topleft = {`{x: ${x}, y: ${y}}`}
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET topleft que devuelve un objeto con las coordenadas x e y
+                            de la esquina superior izquierda del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            const esquinaSuperiorIzquierda = rectangulo.topleft;
+        
+                            console.log("Esquina superior izquierda del rectángulo:", esquinaSuperiorIzquierda);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que la esquina superior izquierda devuelta es {`{x: ${x}, y: ${y}}`}.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.topright",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <circle cx={w} cy="0" r="3" fill="black" />
+                                <text x={w} y="-10" font-family="Arial" font-size="12" fill="black"
+                                    text-anchor="middle"
+                                >
+                                    topright = {`{x: ${x + w}, y: ${y}}`}
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET topright que devuelve un objeto con las coordenadas
+                            x e y de la esquina superior derecha del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            const esquinaSuperiorDerecha = rectangulo.topright;
+        
+                            console.log("Esquina superior derecha del rectángulo:", esquinaSuperiorDerecha);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que la esquina superior derecha devuelta es {`{x: ${x + w}, y: ${y}}`}.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.bottomleft",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <circle cx="0" cy={h} r="3" fill="black" />
+                                <text x="5" y={h - 5} font-family="Arial" font-size="12" fill="blue" font-weight="bold">
+                                    bottomleft = {`{x: ${x}, y: ${y + h}}`}
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET bottomleft que devuelve un objeto con las coordenadas
+                            x e y de la esquina inferior izquierda del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            const esquinaInferiorIzquierda = rectangulo.bottomleft;
+        
+                            console.log("Esquina inferior izquierda del rectángulo:", esquinaInferiorIzquierda);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que la esquina inferior izquierda devuelta es {`{x: ${x}, y: ${y + h}}`}.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.bottomright",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <circle cx={w} cy={h} r="3" fill="black" />
+                                <text x={w} y={h - 5} font-family="Arial" font-size="12" fill="blue" font-weight="bold"
+                                    text-anchor="middle"
+                                >
+                                    bottomright = {`{x: ${x + w}, y: ${y + h}}`}
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET bottomright que devuelve un objeto con las coordenadas
+                            x e y de la esquina inferior derecha del rectángulo.
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            const esquinaInferiorDerecha = rectangulo.bottomright;
+        
+                            console.log("Esquina inferior derecha del rectángulo:", esquinaInferiorDerecha);
+                        `}</thisObj.Code>
+                        <p>
+                            Se observará que la esquina inferior derecha devuelta es {`{x: ${x + w}, y: ${y + h}}`}.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle.vertices",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                const { x, y, w, h } = thisObj.testR;
+                const g = (
+                    <thisObj.G
+                        {...thisObj.testR}
+                        shape={<rect x="0" y="0" width={w} height={h} fill="lightblue" stroke="black" stroke-width="2" />}
+                        extra={
+                            <React.Fragment>
+                                <circle cx="0" cy="0" r="3" fill="black" />
+                                <text x="5" y="-5" font-family="Arial" font-size="12" fill="blue" text-anchor="middle">
+                                    topleft
+                                </text>
+                                <circle cx={w} cy="0" r="3" fill="black" />
+                                <text x={w} y="-5" font-family="Arial" font-size="12" fill="blue" text-anchor="middle">
+                                    topright
+                                </text>
+                                <circle cx="0" cy={h} r="3" fill="black" />
+                                <text x="5" y={h - 5} font-family="Arial" font-size="12" fill="blue" text-anchor="middle">
+                                    bottomleft
+                                </text>
+                                <circle cx={w} cy={h} r="3" fill="black" />
+                                <text x={w} y={h - 5} font-family="Arial" font-size="12" fill="blue" text-anchor="middle">
+                                    bottomright
+                                </text>
+                            </React.Fragment>
+                        }
+                    />
+                );
+
+                return (
+                    <FormatoDoc>
+                        <thisObj.DobleSVG g={g}>
+                            Los objetos Rectangle tienen una función GET vertices que devuelve un array con las coordenadas
+                            de las cuatro esquinas del rectángulo:
+                        </thisObj.DobleSVG>
+                        <thisObj.Code>{`
+                            let rectangulo = new Rectangle(${x}, ${y}, ${w}, ${h});
+                            const vertices = rectangulo.vertices;
+        
+                            console.log("Vértices del rectángulo:", vertices);
+                        `}</thisObj.Code>
+                        Se observará que los vértices devueltos son
+                        <br />
+                        <br />
+                        <br />
+                        <thisObj.Code>{`
+                            // [topleft, topright, bottomleft, bottomright]
+                            [
+                                {x: ${x}, y: ${y} }, // topleft
+                                {x: ${x + w}, y: ${y} }, // topright
+                                {x: ${x}, y: ${y + h} }, // bottomleft
+                                {x: ${x + w}, y: ${y + h} } // bottomright
+                            ]
+                        `}</thisObj.Code>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET Rectangle._defined",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <FormatoDoc>
+                        Los objetos Rectangle tienen una función GET _defined que verifica si las propiedades
+                        x, y, w y h están definidas y devuelve true si todas están definidas,
+                        de lo contrario, devuelve false.
+                        <Code
+                            linenumbers={false}
+                        >{`
+                            let rectangulo = new Rectangle(50, 50, 100, 100);
+                            let definido = rectangulo._defined;
+        
+                            console.log("El rectángulo está definido:", definido);
+                        `}</Code>
+                        <p>
+                            Se observará que el valor devuelto es true.
+                        </p>
+                        <Code
+                            linenumbers={false}
+                        >{`
+                            let rectangulo = new Rectangle();
+                            let definido = rectangulo._defined;
+        
+                            console.log("El rectángulo está definido:", definido);
+                        `}</Code>
+                        <p>
+                            Se observará que el valor devuelto es false.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+
+        {
+            nombre: "GET Rectangle.copy",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <FormatoDoc>
+                        Los objetos Rectangle tienen una función GET copy que crea una copia del rectángulo.
+                        <Code
+                            linenumbers={false}
+                        >{`
+                            let rectangulo = new Rectangle(0, 0, 100, 100);
+                            let rectanguloCopia = rectangulo.copy;
+
+                            rectanguloCopia.move(100, 100);
+
+                            console.log("Rectángulo original:", rectangulo.pos);
+                            console.log("Rectángulo copia:", rectanguloCopia.pos);
+                        `}</Code>
+                        <p>
+                            Se tendrá que observar que el círculo original no se ha movido, mientras que la copia sí.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
             nombre: "Rectangle.move(x, y)",
             nombre_render_as: "CodeInline",
             contenido: (thisObj) => {
@@ -174,9 +932,9 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                     <CodigoConRepresentacion
                         titulo="Mover un rectángulo"
                         desc="Ejemplo de cómo mover un rectángulo, en este caso siguiendo la posición del ratón."
-                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/rectangle-move.html"
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Rectangle/rectangle-move.html"
                     >{`
-                        // Función de configuración inicial
+                        
                         function setup() {
                             createCanvas(windowWidth, windowHeight);
                             // Creación de un objeto rectángulo en el centro del lienzo
@@ -207,42 +965,9 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                     <CodigoConRepresentacion
                         titulo="Redimensionar un rectángulo"
                         desc="Ejemplo de cómo cambiar el tamaño de un rectángulo, en este caso siguiendo la posición del ratón."
-                        url="src/muestras/rectangle-resize.html"
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Rectangle/rectangle-resize.html"
                     >{`
-                        // Función de configuración inicial
-                        function setup() {
-                            createCanvas(windowWidth, windowHeight );
-                            rectangulo = new Rectangle(width / 2, height / 2, 150, 150);
-                        }
-
-                        function draw() {
-                            rectangulo.resize(
-                                mouseX - rectangulo.x, 
-                                mouseY - rectangulo.y
-                            );
-                            // Dibujo del rectángulo en su nueva posición
-                            background(220);
-                            fill(255, 0, 0, 100);
-                            stroke(0);
-                            strokeWeight(1);
-                            line(rectangulo.x, rectangulo.y, mouseX, mouseY);
-                            rectangulo.draw();
-                        }
-                    `}</CodigoConRepresentacion>
-                );
-            }
-        },
-        {
-            nombre: "Rectangle.collidePoint(x, y)",
-            nombre_render_as: "CodeInline",
-            contenido: (thisObj) => {
-                return (
-                    <CodigoConRepresentacion
-                        titulo="Colisión punto-rectángulo"
-                        desc="Ejemplo de cómo detectar si un punto colisiona con un rectángulo, en este caso siguiendo la posición del ratón."
-                        url="src/muestras/rectangle-collide-point.html"
-                    >{`
-                        // Función de configuración inicial
+                        
                         function setup() {
                             createCanvas(windowWidth, windowHeight );
                             rectangulo = new Rectangle(width / 2, height / 2, 150, 150);
@@ -273,81 +998,34 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                     <CodigoConRepresentacion
                         titulo="¿Está un rectángulo dentro de otro?"
                         desc="Ejemplo de cómo detectar si un rectángulo está completamente dentro de otro rectángulo."
-                        url="src/muestras/rectangle-collide-rectangle.html"
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Rectangle/rectangle-detect-other-inside.html"
                     >{`
-                        // Función de configuración inicial
+                        let rectangulo, rectanguloCursor;
+                        
                         function setup() {
                             createCanvas(windowWidth, windowHeight);
-                            // Creación de un objeto rectángulo en el centro del lienzo.
                             rectangulo = new Rectangle(width / 2 - 150, height / 2 - 50, 300, 100)
-                            // Creación de un segundo objeto rectángulo.
-                            rectangulo2 = new Rectangle(0, 0, 150, 150);
-                            noStroke()
+                            rectanguloCursor = new Rectangle(0, 0, 150, 150);
                         }
 
                         function draw() {
+                            rectanguloCursor.move(
+                                mouseX - rectanguloCursor.w / 2,
+                                mouseY - rectanguloCursor.h / 2
+                            )
                             // Verificación de colisión entre los dos rectángulos.
-                            const colisionRectanguloRectangulo = rectangulo.isInside(rectangulo2);
+                            const colisionRectanguloRectangulo = rectangulo.isInside(rectanguloCursor);
                             if (colisionRectanguloRectangulo) {
                                 fill(0, 255, 0, 100) // Verde (Hay colisión)
                             }
                             else {
                                 fill(255, 0, 0, 100) // Rojo (No hay colisión)
                             }
-                            resizeCanvas(windowWidth, windowHeight)
                             // Dibujado del rectángulo indicando si hay colisión o no
                             background(220);
                             noStroke()
                             rectangulo.draw()
-                            rectangulo2.move(
-                                    mouseX - rectangulo2.w / 2,
-                                    mouseY - rectangulo2.h / 2
-                            )
-                            rectangulo2.draw()
-                        }
-                    `}</CodigoConRepresentacion>
-                );
-            }
-        },
-        {
-            nombre: "Rectangle.collideRect(otherRect)",
-            nombre_render_as: "CodeInline",
-            contenido: (thisObj) => {
-                return (
-                    <CodigoConRepresentacion
-                        titulo="Colisión rectángulo-rectángulo"
-                        desc="Ejemplo de cómo detectar si dos rectángulos colisionan entre sí."
-                        url="src/muestras/rectangle-collide-rectangle.html"
-                    >{`
-                        // Función de configuración inicial
-                        function setup() {
-                            createCanvas(windowWidth, windowHeight);
-                            // Creación de un objeto rectángulo en el centro del lienzo.
-                            rectangulo = new Rectangle(width / 2 - 150, height / 2 - 50, 300, 100);
-                            // Creación de un segundo objeto rectángulo.
-                            rectangulo2 = new Rectangle(0, 0, 150, 150);
-                            noStroke();
-                        }
-
-                        function draw() {
-                            // Verificación de colisión entre los dos rectángulos.
-                            const colisionRectanguloRectangulo = rectangulo.collideRect(rectangulo2);
-
-                            if (colisionRectanguloRectangulo) {
-                                fill(0, 255, 0, 100); // Verde (Hay colisión)
-                            } else {
-                                fill(255, 0, 0, 100); // Rojo (No hay colisión)
-                            }
-
-                            // Dibujado del rectángulo indicando si hay colisión o no
-                            background(220);
-                            noStroke();
-                            rectangulo.draw();
-                            rectangulo2.move(
-                                mouseX - rectangulo2.w / 2,
-                                mouseY - rectangulo2.h / 2
-                            );
-                            rectangulo2.draw();
+                            rectanguloCursor.draw()
                         }
                     `}</CodigoConRepresentacion>
                 );
@@ -361,28 +1039,31 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                     <CodigoConRepresentacion
                         titulo="Intersección de rectángulos"
                         desc="Ejemplo de cómo calcular la intersección entre dos rectángulos."
-                        url="src/muestras/rectangle-intersect.html"
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Rectangle/rectangle-intersect.html"
                     >{`
+                        let rectangulo, rectanguloCursor;
+
                         // Función para ajustar las propiedades iniciales del proyecto
                         function setup() {
                             createCanvas(windowWidth, windowHeight );
                             rectangulo = new Rectangle(width / 2 - 150, height / 2 - 50, 300, 100);
-                            rectangulo2 = new Rectangle(0, 0, 100, 300);
+                            rectanguloCursor = new Rectangle(0, 0, 100, 300);
                         }
 
                         function draw() {
-                            rectangulo2.move(
-                                mouseX - rectangulo2.w / 2,
-                                mouseY - rectangulo2.h / 2
+                            // Efecto de reposición con el mouse
+                            rectanguloCursor.move(
+                                mouseX - rectanguloCursor.w / 2,
+                                mouseY - rectanguloCursor.h / 2
                             );
 
                             background(220);
 
                             fill(255, 0, 0, 100); // Rojo para los rectangulos a intersectar
                             rectangulo.draw();
-                            rectangulo2.draw();
+                            rectanguloCursor.draw();
 
-                            let intersecto = rectangulo2.intersect(rectangulo);
+                            let intersecto = rectanguloCursor.intersect(rectangulo);
                             fill(0, 255, 0, 100); // Verde para el intersecto
                             intersecto.draw();
 
@@ -403,7 +1084,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                     <CodigoConRepresentacion
                         titulo="Unión de rectángulos"
                         desc="Ejemplo de cómo calcular la unión entre dos rectángulos."
-                        url="src/muestras/rectangle-union.html"
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Rectangle/rectangle-union.html"
                     >{`
                         let rectanguloCentro, rectanguloCursor;
 
@@ -446,6 +1127,130 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                             fill("black");
                             textAlign(CENTER, CENTER);
                             text("unión", union.centerX, union.centerY);
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Rectangle.collidePoint(x, y)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Colisión punto-rectángulo"
+                        desc="Ejemplo de cómo detectar si un punto colisiona con un rectángulo, en este caso siguiendo la posición del ratón."
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Rectangle/rectangle-collide-point.html"
+                    >{`
+                        
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight );
+                            rectangulo = new Rectangle(width / 2, height / 2, 150, 150);
+                        }
+
+                        function draw() {
+                            // Efecto de redimensionamiento con el mouse
+                            rectangulo.resize(
+                                mouseX - rectangulo.x, 
+                                mouseY - rectangulo.y
+                            );
+                            // Dibujo del rectángulo en su nueva posición
+                            background(220);
+                            fill(255, 0, 0, 100);
+                            stroke(0);
+                            strokeWeight(1);
+                            line(rectangulo.x, rectangulo.y, mouseX, mouseY);
+                            rectangulo.draw();
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Rectangle.collideRect(otherRect)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Colisión rectángulo-rectángulo"
+                        desc="Ejemplo de cómo detectar si dos rectángulos colisionan entre sí."
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Rectangle/rectangle-collide-rectangle.html"
+                    >{`
+                        let rectangulo, rectanguloCursor;
+                        
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            rectangulo = new Rectangle(width / 2 - 150, height / 2 - 50, 300, 100);
+                            rectanguloCursor = new Rectangle(0, 0, 150, 150);
+                        }
+
+                        function draw() {
+                            // Efecto de reposición con el mouse
+                            rectanguloCursor.move(
+                                mouseX - rectanguloCursor.w / 2,
+                                mouseY - rectanguloCursor.h / 2
+                            );
+
+                            // Verificación de colisión entre los dos rectángulos.
+                            const colisionRectanguloRectangulo = rectangulo.collideRect(rectanguloCursor);
+
+                            if (colisionRectanguloRectangulo) {
+                                fill(0, 255, 0, 100); // Verde (Hay colisión)
+                            } else {
+                                fill(255, 0, 0, 100); // Rojo (No hay colisión)
+                            }
+
+                            // Dibujado del rectángulo indicando si hay colisión o no
+                            background(220);
+                            noStroke();
+                            rectangulo.draw();
+                            rectanguloCursor.draw();
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "Rectangle.collideCircle(circle)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Colisión rectángulo-círculo"
+                        desc="Ejemplo de cómo detectar si un rectángulo colisiona con un círculo."
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Rectangle/Rectangle.collideCircle.html"
+                    >{`
+                        let rectanguloCentro, circuloCursor;
+                        
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            rectanguloCentro = new Rectangle(
+                                windowWidth / 2 - 150,
+                                windowHeight / 2 - 50,
+                                300,
+                                100
+                            );
+                            circuloCursor = new Circle(0, 0, 100);
+                        }
+
+                        function draw() {
+                            resizeCanvas(windowWidth, windowHeight);
+
+                            circuloCursor.move(mouseX, mouseY);
+
+                            // Verificación de colisión entre los dos rectángulos.
+                            const colisionRectanguloCirculo = rectanguloCentro.collideCircle(circuloCursor);
+
+                            if (colisionRectanguloCirculo) {
+                                fill(0, 255, 0, 100); // Verde (Hay colisión)
+                            } else {
+                                fill(255, 0, 0, 100); // Rojo (No hay colisión)
+                            }
+
+                            background(220);
+                            noStroke();
+                            rectanguloCentro.draw();
+                            circuloCursor.draw();
                         }
                     `}</CodigoConRepresentacion>
                 );
@@ -495,6 +1300,138 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                             circulo.r    // retorna el radio del círculo -> 50
                         `}</Code>
                     </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "GET/SET Circle.r",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Redimensionar un círculo"
+                        desc="Ejemplo de cómo cambiar el tamaño de un círculo, en este caso siguiendo la posición del cursor."
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Circle/circle-resize.html"
+                    >{`
+                        let circulo;
+
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            // Creación de un circulo en el centro.
+                            circulo = new Circle(width / 2, height / 2, 100);
+                        }
+
+                        function draw() {
+                            // Cambio de radio del circulo según la distancia al centro.
+                            let d = circulo.distanceCenter(mouseX, mouseY);
+                            circulo.r = d;
+
+                            background(220);
+
+                            fill(255, 0, 0, 100);
+                            noStroke();
+                            circulo.draw();
+                        }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "GET Circle.toRect",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Rectángulo que contiene un círculo"
+                        desc="Ejemplo de cómo crear un rectángulo que contiene un círculo y seguir su posición."
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Circle/circle-outer-rectangle.html"
+                    >{`
+                            let circulo;
+
+                            function setup() {
+                                createCanvas(windowWidth, windowHeight);
+                                // Creación de un circulo.
+                                circulo = new Circle(0, 0, 100);
+                            }
+
+                            function draw() {
+                                // Efecto de arrastre del circulo con el cursor.
+                                circulo.move(mouseX, mouseY);
+                                // Creación de un rectángulo que contiene al circulo.
+                                const rect = circulo.toRect;
+
+                                background(220);
+                                noStroke();
+
+                                fill(255, 0, 0, 100);
+                                circulo.draw();
+
+                                stroke(255, 0, 0);
+                                noFill();
+                                rect.draw();
+                            }
+                    `}</CodigoConRepresentacion>
+                );
+            }
+        },
+        {
+            nombre: "GET Circle.copy",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <FormatoDoc>
+                        Los objetos Circle tienen una función GET copy que crea una copia del círculo.
+                        <p>
+                            Se utiliza para duplicar un círculo y mantener la original intacta.
+                        </p>
+                        <Code
+                            linenumbers={false}
+                        >{`
+                            let circulo = new Circle(200, 200, 100);
+                            let circuloCopia = circulo.copy;
+
+                            circuloCopia.move(100, 100);
+
+                            console.log("Círculo original:", circulo.center);
+                            console.log("Círculo copia:", circuloCopia.center);
+                        `}</Code>
+                        <p>
+                            Se tendrá que observar que el círculo original no se ha movido, mientras que la copia sí.
+                        </p>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "Circle.move(x, y)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="Mover un círculo"
+                        desc="Ejemplo de cómo mover un círculo en la pantalla siguiendo la posición del cursor."
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Circle/circle-move.html"
+                    >{`
+                        let circuloCursor;
+
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            // Creación de un objeto círculo.
+                            circuloCursor = new Circle(0, 0, 100);
+                        }
+
+                        function draw() {
+                            resizeCanvas(windowWidth, windowHeight);
+
+                            circuloCursor.move(mouseX, mouseY);
+
+                            background(220);
+                            // Dibujar un círculo en la posición del cursor.
+                            fill(255, 0, 0, 100);
+                            noStroke();
+                            circuloCursor.draw();
+                        }
+                    `}</CodigoConRepresentacion>
                 );
             }
         },
@@ -575,7 +1512,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
             contenido: (thisObj) => {
                 return (
                     <FormatoDoc>
-                        Los objetos Circle tienen una función angleCenter(x, y) que calcula el angulo entre el centro del
+                        Los objetos Circle tienen una función angleCenter(a, dr) que calcula el angulo entre el centro del
                         círculo y un punto dado.
                         <p>
                             La función admite únicamente angulos en radianes y un valor opcional dr que representa un
@@ -586,20 +1523,15 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                             </p>
                         </p>
                         <CodigoConRepresentacion
-                            titulo="Punto en el borde del círculo"
+                            titulo="De un ángulo al borde del círculo"
                             desc="Ejemplo de cómo obtener las coordenadas de un punto en el borde de un círculo."
-                            url="src/muestras/Circle.angleToBorder.html"
+                            url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Circle/Circle.angleToBorder.html"
                         >{`
                             let circuloCentro;
-
                             let angulo = 0;
 
                             function setup() {
                                 createCanvas(windowWidth, windowHeight);
-                                circuloCentro = new Circle(width / 2, height / 2, 150);
-                            }
-
-                            function windowResized() {
                                 circuloCentro = new Circle(width / 2, height / 2, 150);
                             }
 
@@ -626,105 +1558,85 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
             }
         },
         {
-            nombre: "Circle.move(x, y)",
+            nombre: "Circle.pointToBorder(x, y)",
             nombre_render_as: "CodeInline",
             contenido: (thisObj) => {
                 return (
-                    <CodigoConRepresentacion
-                        titulo="Mover un círculo"
-                        desc="Ejemplo de cómo mover un círculo en la pantalla siguiendo la posición del cursor."
-                        url="src/muestras/circle-move.html"
-                    >{`
-                        let circuloCursor;
-
-                        function setup() {
-                            createCanvas(windowWidth, windowHeight);
-                            // Creación de un objeto círculo.
-                            circuloCursor = new Circle(0, 0, 100);
-                        }
-
-                        function draw() {
-                            resizeCanvas(windowWidth, windowHeight);
-
-                            circuloCursor.move(mouseX, mouseY);
-
-                            background(220);
-                            // Dibujar un círculo en la posición del cursor.
-                            fill(255, 0, 0, 100);
-                            noStroke();
-                            circuloCursor.draw();
-                        }
-                    `}</CodigoConRepresentacion>
-                );
-            }
-        },
-        {
-            nombre: "GET/SET Circle.r",
-            nombre_render_as: "CodeInline",
-            contenido: (thisObj) => {
-                return (
-                    <CodigoConRepresentacion
-                        titulo="Redimensionar un círculo"
-                        desc="Ejemplo de cómo cambiar el tamaño de un círculo, en este caso siguiendo la posición del cursor."
-                        url="src/muestras/circle-resize.html"
-                    >{`
-                        let circulo;
-
-                        function setup() {
-                            createCanvas(windowWidth, windowHeight);
-                            // Creación de un circulo en el centro.
-                            circulo = new Circle(width / 2, height / 2, 100);
-                        }
-
-                        function draw() {
-                            // Cambio de radio del circulo según la distancia al centro.
-                            let d = circulo.distanceCenter(mouseX, mouseY);
-                            circulo.r = d;
-
-                            background(220);
-
-                            fill(255, 0, 0, 100);
-                            noStroke();
-                            circulo.draw();
-                        }
-                    `}</CodigoConRepresentacion>
-                );
-            }
-        },
-        {
-            nombre: "Circle.toRect()",
-            nombre_render_as: "CodeInline",
-            contenido: (thisObj) => {
-                return (
-                    <CodigoConRepresentacion
-                        titulo="Rectángulo que contiene un círculo"
-                        desc="Ejemplo de cómo crear un rectángulo que contiene un círculo y seguir su posición."
-                        url="src/muestras/circle-outer-rectangle.html"
-                    >{`
-                            let circulo;
+                    <FormatoDoc>
+                        Los objetos Circle tienen una función pointToBorder(x, y) que calcula el punto más cercano en el borde
+                        del círculo a un punto dado.
+                        <p>
+                            La función admite
+                            <br />
+                            {thisObj.dosParametros}
+                        </p>
+                        <CodigoConRepresentacion
+                            titulo="Punto más cercano en el borde del círculo"
+                            desc="Ejemplo de cómo generar un punto en el borde de un círculo, más cercano a la posición del cursor."
+                            url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Circle/Circle.pointToBorder.html"
+                        >{`
+                            let circuloCentro;
 
                             function setup() {
                                 createCanvas(windowWidth, windowHeight);
-                                // Creación de un circulo.
-                                circulo = new Circle(0, 0, 100);
+                                circuloCentro = new Circle(width / 2, height / 2, 150);
                             }
 
                             function draw() {
-                                // Efecto de arrastre del circulo con el cursor.
-                                circulo.move(mouseX, mouseY);
-                                // Creación de un rectángulo que contiene al circulo.
-                                const rect = circulo.toRect();
+                                // Se obtiene el punto en la circunferencia más cercano al cursor.
+                                const p = circuloCentro.pointToBorder(mouseX, mouseY);
 
                                 background(220);
                                 noStroke();
 
                                 fill(255, 0, 0, 100);
-                                circulo.draw();
+                                circuloCentro.draw();
 
-                                stroke(255, 0, 0);
-                                noFill();
-                                rect.draw();
+                                fill("green");
+                                circle(p.x, p.y, 20);
                             }
+                        `}</CodigoConRepresentacion>
+                    </FormatoDoc>
+                );
+            }
+        },
+        {
+            nombre: "Circle.isInside_circle(otherCircle)",
+            nombre_render_as: "CodeInline",
+            contenido: (thisObj) => {
+                return (
+                    <CodigoConRepresentacion
+                        titulo="¿Está un círculo dentro de otro?"
+                        desc="Ejemplo de cómo determinar si un círculo está completamente dentro de otro círculo."
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Circle/circle-detection-inside.html"
+                    >{`
+                        let circuloCursor, circuloCentro;
+
+                        function setup() {
+                            createCanvas(windowWidth, windowHeight);
+                            circuloCursor = new Circle(0, 0, 100);
+                            circuloCentro = new Circle(width / 2, height / 2, 150);
+                        }
+
+                        function draw() {
+                            // Efecto de arrastre del circulo con el cursor.
+                            circuloCursor.move(mouseX, mouseY);
+
+                            // Se determina si el circulo del cursor está dentro del circulo del centro.
+                            const estaDentro = circuloCursor.isInside_circle(circuloCentro);
+
+                            if (estaDentro) {
+                                fill(0, 255, 0, 100); // Verde (Hay colisión).
+                            } else {
+                                fill(255, 0, 0, 100); // Rojo (No hay colisión).
+                            }
+
+                            background(220);
+
+                            noStroke();
+                            circuloCursor.draw();
+                            circuloCentro.draw();
+                        }
                     `}</CodigoConRepresentacion>
                 );
             }
@@ -737,7 +1649,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                     <CodigoConRepresentacion
                         titulo="Colisión punto-círculo"
                         desc="Ejemplo de cómo detectar si un punto colisiona con un círculo, en este caso con el cursor."
-                        url="src/muestras/circle-collide-point.html"
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Circle/circle-collide-point.html"
                     >{`
                         let circulo;
 
@@ -772,7 +1684,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                     <CodigoConRepresentacion
                         titulo="Colisión círculo-rectángulo"
                         desc="Ejemplo de cómo detectar si un círculo colisiona con un rectángulo."
-                        url="src/muestras/circle-rect-collide.html"
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Circle/circle-rect-collide.html"
                     >{`
                         let circulo, rectangulo;
 
@@ -813,7 +1725,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                     <CodigoConRepresentacion
                         titulo="Colisión círculo-círculo"
                         desc="Ejemplo de cómo detectar si dos círculos colisionan entre sí."
-                        url="src/muestras/circle-collide-circle.html"
+                        url="https://jeff-aporta.github.io/Geometry-rects-n-circles-JS/src/muestras/Circle/circle-collide-circle.html"
                     >{`
                         let circuloCursor, circuloCentro;
 
@@ -839,47 +1751,6 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                             background(220);
                             noStroke();
                             
-                            circuloCursor.draw();
-                            circuloCentro.draw();
-                        }
-                    `}</CodigoConRepresentacion>
-                );
-            }
-        },
-        {
-            nombre: "Circle.isInside_circle(otherCircle)",
-            nombre_render_as: "CodeInline",
-            contenido: (thisObj) => {
-                return (
-                    <CodigoConRepresentacion
-                        titulo="¿Está un círculo dentro de otro?"
-                        desc="Ejemplo de cómo determinar si un círculo está completamente dentro de otro círculo."
-                        url="src/muestras/circle-detection-inside.html"
-                    >{`
-                        let circuloCursor, circuloCentro;
-
-                        function setup() {
-                            createCanvas(windowWidth, windowHeight);
-                            circuloCursor = new Circle(0, 0, 100);
-                            circuloCentro = new Circle(width / 2, height / 2, 150);
-                        }
-
-                        function draw() {
-                            // Efecto de arrastre del circulo con el cursor.
-                            circuloCursor.move(mouseX, mouseY);
-
-                            // Se determina si el circulo del cursor está dentro del circulo del centro.
-                            const estaDentro = circuloCursor.isInside_circle(circuloCentro);
-
-                            if (estaDentro) {
-                                fill(0, 255, 0, 100); // Verde (Hay colisión).
-                            } else {
-                                fill(255, 0, 0, 100); // Rojo (No hay colisión).
-                            }
-
-                            background(220);
-
-                            noStroke();
                             circuloCursor.draw();
                             circuloCentro.draw();
                         }

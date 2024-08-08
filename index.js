@@ -5,24 +5,24 @@ class Circle {
     this.d = d;
   }
 
-  copy() {
+  get copy() {
     return new Circle(this.x, this.y, this.d);
   }
 
-  toRect() {
+  get toRect() {
     return new Rectangle(this.x - this.r, this.y - this.r, this.d, this.d);
   }
 
   collideRect(rectangulo) {
-    if (!rectangulo.collideRect(this.toRect())) {
+    if (!rectangulo.collideRect(this.toRect)) {
       return false;
     }
     let vertices = [
-      createVector(this.x, this.y + this.r),
-      createVector(this.x, this.y - this.r),
-      createVector(this.x + this.r, this.y),
-      createVector(this.x - this.r, this.y),
-    ];
+      { x: this.x, y: this.y + this.r },
+      { x: this.x, y: this.y - this.r },
+      { x: this.x + this.r, y: this.y },
+      { x: this.x - this.r, y: this.y },
+    ]
     for (let i in vertices) {
       if (rectangulo.collidePoint(vertices[i])) {
         return true;
@@ -60,6 +60,10 @@ class Circle {
   }
 
   move(x, y) {
+    if (x instanceof Object) {
+      y = x.y;
+      x = x.x;
+    }
     this.x = x;
     this.y = y;
   }
@@ -77,14 +81,19 @@ class Circle {
       y = x.y;
       x = x.x;
     }
-    return atan2(this.center.y - y, this.center.x - x);
+    return atan2(y - this.center.y, x - this.center.x);
   }
 
   angleToBorder(a, dr = 0) {
     return {
       x: this.x + (this.r + dr) * Math.cos(a),
       y: this.y + (this.r + dr) * Math.sin(a),
-    }
+    };
+  }
+
+  pointToBorder(x, y) {
+    let a = this.angleCenter(x, y);
+    return this.angleToBorder(a);
   }
 
   set center(centro) {
@@ -111,13 +120,19 @@ class Circle {
 
 class Rectangle {
   constructor(x, y, w, h) {
+    if (x instanceof Object) {
+      y = x.y;
+      w = x.w;
+      h = x.h;
+      x = x.x;
+    }
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
   }
 
-  copy() {
+  get copy() {
     return new Rectangle(this.x, this.y, this.w, this.h);
   }
 

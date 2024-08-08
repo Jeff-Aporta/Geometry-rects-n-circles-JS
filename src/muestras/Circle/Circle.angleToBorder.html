@@ -31,7 +31,7 @@
         resizeCanvas(windowWidth, windowHeight);
 
         // Se incrementa el ángulo para obtener un punto en la circunferencia.
-        angulo += 0.01;
+        angulo += 0.1;
         const p = circuloCentro.angleToBorder(angulo);
 
 
@@ -42,7 +42,7 @@
         circuloCentro.draw();
 
         fill("green");
-        circle(p.x, p.y, 10);
+        circle(p.x, p.y, 20);
       }
     </script>
   </body>
