@@ -532,7 +532,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 <text x={w / 2} y={h / 2 - 10} font-family="Arial" font-size="12" fill="black"
                                     text-anchor="middle"
                                 >
-                                    centerX = {w / 2}
+                                    centerX = {x + w / 2}
                                 </text>
                             </React.Fragment>
                         }
@@ -573,7 +573,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
                                 <text x={w / 2} y={h / 2 - 10} font-family="Arial" font-size="12" fill="black"
                                     text-anchor="middle"
                                 >
-                                    centerY = {h / 2}
+                                    centerY = {y + h / 2}
                                 </text>
                             </React.Fragment>
                         }
