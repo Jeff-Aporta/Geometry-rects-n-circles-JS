@@ -39,19 +39,19 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
         return (
             <div
                 className={CSScmds(`
-                        x>850px{
-                            ${s ? "margin-right: (20px,);" : ""}
-                            ${s ? "margin-bottom: (20px,);" : ""}
-                            ${!s ? "margin-top: (,20px);" : ""}
-                            ${s ? "text-align: (center,);" : ""}
-                            float: (left, );
-                            text-align: (,center);
-                            display: [
-                                ${s ? "block" : "none"},
-                                ${!s ? "block" : "none"}
-                            ];
-                        }
-                    `)}
+                    x>850px{
+                        ${s ? "margin-right: (20px,);" : ""}
+                        ${s ? "margin-bottom: (20px,);" : ""}
+                        ${!s ? "margin-top: (,20px);" : ""}
+                        ${s ? "text-align: (center,);" : ""}
+                        float: (left, );
+                        text-align: (,center);
+                        display: [
+                            ${s ? "block" : "none"},
+                            ${!s ? "block" : "none"}
+                        ];
+                    }
+                `)}
             >
                 <svg
                     width="250"
@@ -135,6 +135,27 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
     testR: { x: 60, y: 50, w: 100, h: 120 },
 
     secciones: [
+        {
+            nombre: "Introducción",
+            contenido: (thisObj) => {
+                return (
+                    <FormatoDoc>
+                        *Rects n Circles* es una librería básica diseñada para manejar colisiones, especialmente para proyectos de gráficos dinámicos.
+                        <div
+                            style={{
+                                maxWidth: "500px",
+                                maxHeight: "400px",
+                                margin: "15px auto",
+                            }}
+                        >
+                            <lite-youtube
+                                videoid="ICrVeMKsAkk"
+                            />
+                        </div>
+                    </FormatoDoc>
+                );
+            }
+        },
         {
             nombre: "Usar con CDN",
             contenido: (thisObj) => {
