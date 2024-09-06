@@ -3,7 +3,7 @@ const _GEOMETRY_RECTS_N_CIRCLES_ = new GenerarContenidoLibreria({
     slogan: 'Geometría Dinámica: Simplifica tus Colisiones y Transformaciones',
     img: 'src/img/logo.jpeg',
 
-    github: "https://github.com/Jeff-Aporta/ResaltaProgJS",
+    github: "https://github.com/Jeff-Aporta/Geometry-rects-n-circles-JS",
 
     resumen: {
         desc: `
